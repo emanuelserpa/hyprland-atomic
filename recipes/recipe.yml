@@ -2,7 +2,7 @@
 name: hyprland-atomic
 description: Minimal GNOME base with Hyprland on Fedora 43 base.
 
-base-image: ghcr.io/ublue-os/bazzite-gnome-nvidia
+base-image: ghcr.io/ublue-os/bazzite-gnome
 image-version: stable
 
 modules:
@@ -78,7 +78,6 @@ modules:
           - org.mozilla.firefox
           - com.valvesoftware.Steam
           - com.discordapp.Discord
-          - io.github.arunanshub.animdl
           - com.obsproject.Studio
           - org.gimp.GIMP
           
