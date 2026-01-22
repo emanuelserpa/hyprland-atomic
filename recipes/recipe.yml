@@ -1,12 +1,14 @@
 # yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
 name: hyprland-atomic
-description: Minimal GNOME base with Hyprland using the DNF module.
+description: Minimal GNOME base with Hyprland on Fedora 43 base.
 
+# Base Image: Bazzite GNOME
 base-image: ghcr.io/ublue-os/bazzite-gnome
 image-version: stable
 
 modules:
-  # The DNF module handles Repos, Installs, and Removals in one block
+  # 1. DNF Module: Handles Repos, Installs, and Removals
+  # This automatically detects you are on Fedora 43 and pulls matching repos.
   - type: dnf
     repos:
       copr:
@@ -29,30 +31,28 @@ modules:
         - pamixer
         - brightnessctl
         - wob
-        - polkit-gnome
-
+        - hyprpolkitagent  # Replaces polkit-gnome
+        
         # --- Tools ---
         - ghostty
         - neovim
         - zsh
-        - tmux
-        - fastfetch
-        - yadm
-
+        # Removed 'tmux', 'fastfetch' (Conflict: Already in F43 base)
+        
         # --- Media ---
         - mpv
         - yt-dlp
-        # REMOVED: gstreamer/libavcodec packages (Bazzite handles these internally)
-        # Bazzite uses a pre-configured multimedia group, so adding them manually fails.
+        # Removed 'gstreamer'/'libavcodec' (Conflict: Managed by Bazzite internally)
 
         # --- Sysadmin ---
         - htop
         - glances
         - screen
-        # REMOVED: wget, curl, bind-utils (Already installed in the base image)
+        # Removed 'wget', 'curl', 'bind-utils' (Conflict: Already in F43 base)
 
     remove:
       packages:
+        # The Great Purge: Removing GNOME Apps
         - firefox
         - firefox-langpacks
         - gnome-calculator
@@ -77,7 +77,7 @@ modules:
         - gnome-tour
         - gnome-software
 
-  # Flatpak configuration
+  # 2. Flatpaks
   - type: default-flatpaks
     configurations:
       - notify: true
@@ -91,8 +91,10 @@ modules:
           - org.gimp.GIMP
       - scope: user
 
+  # 3. System Signing
   - type: signing
   
+  # 4. Custom Scripts
   - type: script
     scripts:
       - build.sh
