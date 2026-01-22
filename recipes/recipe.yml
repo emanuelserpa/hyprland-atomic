@@ -1,102 +1,104 @@
+# yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
 name: hyprland-atomic
-description: Minimal GNOME base with Hyprland, Ghostty, and Sysadmin tools.
+description: Minimal GNOME base with Hyprland using the DNF module.
 
-# Base Image: GNOME + Nvidia (Required for this specific de-bloat list)
 base-image: ghcr.io/ublue-os/bazzite-gnome
 image-version: stable
 
 modules:
-  # 1. Custom Repos (Hyprland + Ghostty)
-  - type: yum-repos
+  # The DNF module handles Repos, Installs, and Removals in one block
+  - type: dnf
     repos:
-      - https://copr.fedorainfracloud.org/coprs/solopasha/hyprland/repo/fedora-%OS_VERSION%/solopasha-hyprland-fedora-%OS_VERSION%.repo
-      - https://copr.fedorainfracloud.org/coprs/pgdev/ghostty/repo/fedora-%OS_VERSION%/pgdev-ghostty-fedora-%OS_VERSION%.repo
-
-  # 2. Package Management (Install & Purge)
-  - type: rpm-ostree
+      copr:
+        # Add your Copr repos here simply by name
+        - solopasha/hyprland
+        - pgdev/ghostty
+    
     install:
-      # --- Hyprland Suite ---
-      - hyprland
-      - hyprpaper
-      - hypridle
-      - hyprlock
-      - xdg-desktop-portal-hyprland
-      - waybar
-      - wofi
-      - mako
-      - grimblast
-      - copyq
-      - pamixer
-      - brightnessctl
-      - wob
-      - polkit-gnome   # Critical for GUI Auth
-      
-      # --- Core Tools ---
-      - ghostty
-      - neovim
-      - zsh
-      - tmux
-      - fastfetch
-      - yadm           # For your dotfiles
-      
-      # --- Media & Codecs ---
-      - mpv            # Native is better than Flatpak for scripts
-      - yt-dlp
-      - gstreamer1-plugin-libav
-      - gstreamer1-plugins-bad-freeworld
-      - gstreamer1-plugins-ugly
+      packages:
+        # --- Hyprland Core ---
+        - hyprland
+        - hyprpaper
+        - hypridle
+        - hyprlock
+        - xdg-desktop-portal-hyprland
+        - waybar
+        - wofi
+        - mako
+        - grimblast
+        - copyq
+        - pamixer
+        - brightnessctl
+        - wob
+        - polkit-gnome
 
-      # --- Server/Admin Utils ---
-      - htop
-      - glances
-      - screen
-      - wget
-      - curl
-      - bind-utils
+        # --- Tools ---
+        - ghostty
+        - neovim
+        - zsh
+        - tmux
+        - fastfetch
+        - yadm
 
-    # 3. The Great Purge: Removing GNOME Apps
+        # --- Media & Codecs ---
+        - mpv
+        - yt-dlp
+        - gstreamer1-plugin-libav
+        - gstreamer1-plugins-bad-freeworld
+        - gstreamer1-plugins-ugly
+        - libavcodec-freeworld
+
+        # --- Sysadmin ---
+        - htop
+        - glances
+        - screen
+        - wget
+        - curl
+        - bind-utils
+
     remove:
-      # Apps that have Flatpaks or you don't need
-      - firefox              # Replaced by Flatpak
-      - gnome-calculator
-      - gnome-calendar
-      - gnome-characters
-      - gnome-clocks
-      - gnome-contacts
-      - gnome-font-viewer
-      - gnome-logs
-      - gnome-maps
-      - gnome-weather
-      - gnome-disk-utility   # Use CLI or install GParted if needed
-      - gnome-system-monitor # You have htop/glances
-      - gnome-text-editor    # You have Neovim
-      - baobab               # Disk usage (use ncdu)
-      - totem                # Video (use mpv)
-      - loupe                # Image viewer
-      - snapshot             # Camera
-      - simple-scan
-      - evince               # PDF (install Flatpak if needed)
-      - yelp                 # Help
-      - gnome-tour
-      - gnome-software       # App Store (use terminal for flatpaks)
-      
-      # Note: We KEEP 'nautilus' (Files) and 'gnome-control-center' (Settings)
-      # because removing them breaks system integrations.
+      packages:
+        # The Great Purge: Removing GNOME Apps
+        - firefox
+        - firefox-langpacks
+        - gnome-calculator
+        - gnome-calendar
+        - gnome-characters
+        - gnome-clocks
+        - gnome-contacts
+        - gnome-font-viewer
+        - gnome-logs
+        - gnome-maps
+        - gnome-weather
+        - gnome-disk-utility
+        - gnome-system-monitor
+        - gnome-text-editor
+        - baobab
+        - totem
+        - loupe
+        - snapshot
+        - simple-scan
+        - evince
+        - yelp
+        - gnome-tour
+        - gnome-software
 
-  # 4. Flatpaks (Sandboxed User Apps)
+  # Flatpak configuration
   - type: default-flatpaks
-    notify: true
-    system:
-      install:
-        - org.mozilla.firefox
-        - com.valvesoftware.Steam
-        - com.discordapp.Discord
-        - io.github.arunanshub.animdl
-        - com.obsproject.Studio
-        - org.gimp.GIMP
-        # Add 'org.gnome.Evince' here if you need a PDF reader
+    configurations:
+      - notify: true
+        scope: system
+        install:
+          - org.mozilla.firefox
+          - com.valvesoftware.Steam
+          - com.discordapp.Discord
+          - io.github.arunanshub.animdl
+          - com.obsproject.Studio
+          - org.gimp.GIMP
+      - scope: user
 
-  # 5. Scripts
+  - type: signing
+  
   - type: script
     scripts:
       - build.sh
