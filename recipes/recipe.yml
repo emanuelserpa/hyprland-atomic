@@ -10,7 +10,6 @@ modules:
   - type: dnf
     repos:
       copr:
-        # Add your Copr repos here simply by name
         - solopasha/hyprland
         - pgdev/ghostty
     
@@ -40,25 +39,20 @@ modules:
         - fastfetch
         - yadm
 
-        # --- Media & Codecs ---
+        # --- Media ---
         - mpv
         - yt-dlp
-        - gstreamer1-plugin-libav
-        - gstreamer1-plugins-bad-freeworld
-        - gstreamer1-plugins-ugly
-        - libavcodec-freeworld
+        # REMOVED: gstreamer/libavcodec packages (Bazzite handles these internally)
+        # Bazzite uses a pre-configured multimedia group, so adding them manually fails.
 
         # --- Sysadmin ---
         - htop
         - glances
         - screen
-        - wget
-        - curl
-        - bind-utils
+        # REMOVED: wget, curl, bind-utils (Already installed in the base image)
 
     remove:
       packages:
-        # The Great Purge: Removing GNOME Apps
         - firefox
         - firefox-langpacks
         - gnome-calculator
