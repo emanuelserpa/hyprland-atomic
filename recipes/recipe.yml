@@ -2,19 +2,15 @@
 name: hyprland-atomic
 description: Minimal GNOME base with Hyprland on Fedora 43 base.
 
-# Base Image: Bazzite GNOME
-base-image: ghcr.io/ublue-os/bazzite-gnome
+base-image: ghcr.io/ublue-os/bazzite-gnome-nvidia
 image-version: stable
 
 modules:
-  # 1. DNF Module: Handles Repos, Installs, and Removals
-  # This automatically detects you are on Fedora 43 and pulls matching repos.
   - type: dnf
     repos:
       copr:
         - solopasha/hyprland
-        - pgdev/ghostty
-    
+        - scottames/ghostty
     install:
       packages:
         # --- Hyprland Core ---
@@ -31,28 +27,24 @@ modules:
         - pamixer
         - brightnessctl
         - wob
-        - hyprpolkitagent  # Replaces polkit-gnome
-        
+        - hyprpolkitagent
+
         # --- Tools ---
-        - ghostty
         - neovim
         - zsh
-        # Removed 'tmux', 'fastfetch' (Conflict: Already in F43 base)
-        
+        # Removed 'ghostty' (Conflict with ncurses-term in F43)
+
         # --- Media ---
         - mpv
         - yt-dlp
-        # Removed 'gstreamer'/'libavcodec' (Conflict: Managed by Bazzite internally)
 
         # --- Sysadmin ---
         - htop
         - glances
         - screen
-        # Removed 'wget', 'curl', 'bind-utils' (Conflict: Already in F43 base)
 
     remove:
       packages:
-        # The Great Purge: Removing GNOME Apps
         - firefox
         - firefox-langpacks
         - gnome-calculator
@@ -89,12 +81,11 @@ modules:
           - io.github.arunanshub.animdl
           - com.obsproject.Studio
           - org.gimp.GIMP
+          
       - scope: user
 
-  # 3. System Signing
   - type: signing
   
-  # 4. Custom Scripts
   - type: script
     scripts:
       - build.sh
