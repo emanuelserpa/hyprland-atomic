@@ -22,7 +22,7 @@ RUN rpm-ostree install \
     pamixer \
     brightnessctl \
     wob \
-    hyprpolkitagent \
+    mate-polkit \
     neovim \
     zsh \
     mpv \
