@@ -59,6 +59,15 @@ if [[ -f ${ZDOTDIR:-$HOME}/.zshrc.local ]]; then
     source ${ZDOTDIR:-$HOME}/.zshrc.local
 fi
 
+# Source Zsh Plugins (Fedora paths)
+if [[ -f /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
+    source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+fi
+
+if [[ -f /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
+    source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
+
 # History Configuration
 HISTFILE="$ZDOTDIR/.zsh_history"
 HISTSIZE=50000
