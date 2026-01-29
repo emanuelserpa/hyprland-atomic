@@ -42,10 +42,17 @@ RUN rpm-ostree install \
 
 # Remove packages
 RUN rpm-ostree override remove \
-    gnome-font-viewer \
-    gnome-logs \
-    gnome-disk-utility \
-    yelp && rpm-ostree cleanup -m
+    baobab \
+    cheese \
+    eog \
+    evince \
+    file-roller \
+    gnome-text-editor \
+    simple-scan \
+    gnome-user-docs \
+    gnome-bluetooth \
+    gnome-color-manager \
+    && rpm-ostree cleanup -m
 
 # Copy system files
 COPY files/system /
