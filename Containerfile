@@ -42,7 +42,6 @@ RUN rpm-ostree install \
     playerctl \
     python3-requests \
     fontawesome-fonts-all \
-    && pip install maestral \
     && rpm-ostree cleanup -m
 
 # Remove packages

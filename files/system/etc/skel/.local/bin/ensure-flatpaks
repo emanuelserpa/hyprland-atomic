@@ -20,3 +20,9 @@ install_flatpak() {
 # List of apps to ensure
 install_flatpak "com.github.wwmm.easyeffects"
 install_flatpak "org.mozilla.firefox"
+
+# Install Maestral via pip if missing
+if ! command -v maestral &>/dev/null; then
+    echo "Installing Maestral..."
+    pip install --user --no-cache-dir "maestral[gui]"
+fi
