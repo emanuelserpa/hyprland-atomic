@@ -1,4 +1,4 @@
-FROM ghcr.io/ublue-os/bazzite-gnome:stable
+FROM ghcr.io/ublue-os/main-base:latest
 
 # Enable COPRs
 RUN dnf copr enable -y solopasha/hyprland && \
@@ -8,6 +8,8 @@ RUN dnf copr enable -y solopasha/hyprland && \
 
 # Install packages
 RUN rpm-ostree install \
+    gdm \
+    gnome-shell \
     hyprland \
     hyprpaper \
     hypridle \
@@ -38,39 +40,12 @@ RUN rpm-ostree install \
     playerctl \
     python3-requests \
     fontawesome-fonts-all \
+    steam \
+    lutris \
     && rpm-ostree cleanup -m
 
-# Remove packages
-RUN packages_to_remove=( \
-    baobab \
-    cheese \
-    eog \
-    evince \
-    file-roller \
-    gnome-text-editor \
-    simple-scan \
-    gnome-user-docs \
-    gnome-bluetooth \
-    gnome-color-manager \
-    gnome-calculator \
-    gnome-calendar \
-    gnome-characters \
-    gnome-clocks \
-    gnome-contacts \
-    gnome-maps \
-    gnome-weather \
-    totem \
-    loupe \
-    snapshot \
-    ) && \
-    installed_packages=$(rpm -qa --qf "%{NAME}\n" | grep -E "^($(IFS=\|; echo "${packages_to_remove[*]}"))$") && \
-    if [ -n "$installed_packages" ]; then \
-    echo "Removing: $installed_packages"; \
-    rpm-ostree override remove $installed_packages; \
-    else \
-    echo "No packages to remove."; \
-    fi && \
-    rpm-ostree cleanup -m
+# Enable GDM
+RUN systemctl enable gdm
 
 # Copy system files
 COPY files/system /
