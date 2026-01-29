@@ -1,0 +1,11 @@
+title: "Hyprland Setup"
+screens:
+  - applications:
+      title: "Applications"
+      description: "Select applications to install"
+      groups:
+        Bluetooth:
+          description: "Bluetooth Management"
+          default: true
+          packages:
+            - io.github.kaii_lb.Overskride
