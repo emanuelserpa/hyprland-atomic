@@ -46,7 +46,6 @@ RUN rpm-ostree install \
 
 # Remove packages
 RUN rpm-ostree override remove \
-    gnome-calculator \
     gnome-calendar \
     gnome-characters \
     gnome-clocks \
