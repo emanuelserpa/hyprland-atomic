@@ -41,6 +41,7 @@ RUN rpm-ostree install \
     zsh-autosuggestions \
     zsh-syntax-highlighting \
     easyeffects \
+    spice-vdagent \
     && rpm-ostree cleanup -m
 
 # Remove system-wide Flathub remote to enforce user-only installs
