@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Ensure Flatpaks are installed
+# This script runs on login to ensure user-specific flatpaks are present
+
+# Ensure flathub remote exists
+if ! flatpak remote-list --user | grep -q "flathub"; then
+    flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+fi
+
+# Function to install a flatpak if missing
+install_flatpak() {
+    local app_id="$1"
+    if ! flatpak list --app --user | grep -q "$app_id"; then
+        echo "Installing $app_id..."
+        flatpak install --user -y flathub "$app_id"
+    fi
+}
+
+# List of apps to ensure
+install_flatpak "com.github.wwmm.easyeffects"
+install_flatpak "org.mozilla.firefox"

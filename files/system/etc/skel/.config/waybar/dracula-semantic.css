@@ -1,0 +1,22 @@
+@define-color foreground #f8f8f2;
+@define-color background #22212c;
+@define-color cursor #7970a9;
+@define-color orange #FFCA80;
+
+/*ANSI*/
+@define-color dark-grey #454158;
+@define-color red #ff9580;
+@define-color green #8aff80;
+@define-color yellow #ebff87;
+@define-color purple #9580ff;
+@define-color pink #ff80bf;
+@define-color cyan #80ffea;
+@define-color off-white #f8f8f2;
+@define-color grey #504c67;
+@define-color light-red #ffaa99;
+@define-color light-green #a2ff99;
+@define-color light-yellow #ffff99;
+@define-color light-purple #aa99ff;
+@define-color light-pink #ff99cc;
+@define-color light-cyan #99ffee;
+@define-color white #ffffff;

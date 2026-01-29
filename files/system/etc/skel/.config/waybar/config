@@ -1,0 +1,317 @@
+{
+    "layer": "top", // Waybar at top layer
+    "position": "top", // Waybar position (top|bottom|left|right)
+    //"height": 22, // Waybar height (to be removed for auto height)
+    //"width": 1280, // Waybar width
+    //"bar_id": "bar-0",   
+    "ipc": true,
+    //"hidden_state": "modifier",
+    // Choose the order of the modules
+    "modules-left": [
+        "hyprland/workspaces",
+        "custom/separator",
+        "group/media"
+    ],
+    "modules-center": [
+        "clock"
+    ],
+    "modules-right": [
+        //"custom/spotify",
+        //"custom/ncspot",
+        //"custom/waybar-mpris",
+        //"custom/scratchpad-indicator",
+        "keyboard-state",
+        "custom/separator",
+        "idle_inhibitor",
+        "custom/separator",
+        "custom/separator",
+        "custom/flatpak-updates",
+        "custom/weather",
+        "custom/separator",
+        "pulseaudio#sink",
+        "custom/separator",
+        "pulseaudio#source",
+        "custom/separator",
+        //"cpu",
+        //"memory", 
+        "temperature",
+        "custom/separator",
+        //"backlight",
+        "battery",
+        "custom/separator",
+        //"network",
+        "tray",
+        "custom/separator"
+    ],
+    //Modules configuration
+    "hyprland/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": false,
+        "format": "<span font='25'>{icon}</span>",
+        "format": "{icon}",
+        "format-icons": {
+            "1": " ₁",
+            "2": " ₂",
+            "3": " ₃",
+            "4": " ₄",
+            "5": " ₅",
+            "6": " ₆",
+            "7": " ₇",
+            "8": "  ₈",
+            "9": " ₉",
+            "10": " ₁₀",
+            "11": " ₁"
+            //"urgent": "",
+            //"focused": "",
+            //"default": ""
+        }
+    },
+    "sway/mode": {
+        "format": "<span style=\"italic\">{}</span>"
+    },
+    "sway/window": {
+        "max-length": 80,
+    },
+    "river/mode": {
+        "format": "mode: {}"
+    },
+    "custom/separator": {
+        "format": "|",
+        "interval": "once",
+        "tooltip": false
+    },
+    // Cria o grupo que funciona como uma gaveta (Drawer)
+    "group/media": {
+        "orientation": "horizontal",
+        "drawer": {
+            "transition-duration": 500,
+            "children-class": "media-content",
+            "transition-left-to-right": true
+        },
+        "modules": [
+            "mpris#icon", // O que aparece sempre (o ícone)
+            "mpris#controls", // O que aparece ao expandir
+            "mpris#text" // O nome da música
+        ]
+    },
+    // Configuração do Ícone (A "Cabeça" da Pílula)
+    "mpris#icon": {
+        "format": "{player_icon}",
+        "format-paused": "{status_icon}",
+        "player-icons": {
+            "default": " ",
+            "firefox": " "
+        },
+        "status-icons": {
+            "paused": " "
+        },
+        "tooltip-format": "{dynamic}"
+    },
+    // Configuração dos Controles (Play/Pause/Next)
+    "mpris#controls": {
+        "format": "{prev} {status_icon} {next}",
+        "format-icons": {
+            "paused": "▶",
+            "playing": "⏸"
+        },
+        "on-click-right": "playerctl next", // Atalho rápido
+        "on-click-middle": "playerctl previous"
+    },
+    // Configuração do Texto (Título da Música)
+    "mpris#text": {
+        "format": "{dynamic}",
+        "max-length": 25, // Corta textos gigantes
+        "interval": 1
+    },
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "",
+            "deactivated": ""
+        }
+    },
+    "tray": {
+        "icon-size": 14,
+        "spacing": 2
+    },
+    "clock": {
+        "format": " {:%H:%M}",
+        "format-alt": "  {:%A, %d de %B}",
+        "tooltip-format": "<tt><small>{calendar}</small></tt>",
+        "calendar": {
+            "mode": "month",
+            "mode-mon-col": 3,
+            "weeks-pos": "right",
+            "on-scroll": 1,
+            "on-click-right": "mode",
+            "format": {
+                "months": "<span color='#FFCA80'><b>{}</b></span>",
+                "days": "<span color='#ff99cc'><b>{}</b></span>",
+                "weeks": "<span color='#80ffea'><b>W{}</b></span>",
+                "weekdays": "<span color='#ffcc66'><b>{}</b></span>",
+                "today": "<span color='#ff80bf'><b><u>{}</u></b></span>"
+            }
+        },
+        //"format-alt": "{:%A, %d-%m-%Y}"
+    },
+    "cpu": {
+        "format": " {usage}%",
+        "tooltip": false
+    },
+    "memory": {
+        "format": " {}%",
+        "tooltip": true
+    },
+    "temperature": {
+        // "thermal-zone": 2,
+        // "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+        "critical-threshold": 80,
+        // "format-critical": "{temperatureC}°C {icon}",
+        "format": "{icon} {temperatureC}°C",
+        "format-icons": [
+            "",
+            ""
+        ],
+        "tooltip": false
+    },
+    "backlight": {
+        "device": "acpi_video1",
+        "format": "{icon} {percent}%",
+        "format-icons": [
+            "",
+            ""
+        ],
+        "on-scroll-down": "brightnessctl set 1%-",
+        "on-scroll-up": "brightnessctl set +1%",
+        //"scroll-step": 0.1
+    },
+    "battery": {
+        "states": {
+            "good": 95,
+            "warning": 35,
+            "critical": 15
+        },
+        "format": "{icon} {capacity}%",
+        "format-charging": " {capacity}%",
+        "format-plugged": " {capacity}%",
+        //"format-alt": "{time} {icon}",
+        // "format-good": "", // An empty format will hide the module
+        //"format-full": "",
+        "format-icons": [
+            "",
+            "",
+            "",
+            "",
+            ""
+        ]
+    },
+    "battery#bat2": {
+        "bat": "BAT2"
+    },
+    "network": {
+        // "interface": "wlp2*", // (Optional) To force the use of this interface
+        //"format-wifi":" {essid} ({signalStrength}%)",
+        "format-wifi": "<span font='8'></span>",
+        "tooltip": true,
+        "tooltip-format": "{essid} ({signalStrength}%)",
+        "format-ethernet": "{ifname}: {ipaddr}/{cidr} ",
+        "format-linked": "{ifname} (No IP) ",
+        "format-disconnected": "Disconnected ⚠",
+        //"format-alt": "{ifname}: {ipaddr}/{cidr}",
+        "on-click": "networkmanager_dmenu",
+        "on-click-right": "nm-connection-editor"
+    },
+    "pulseaudio#sink": {
+        "ignored-sinks": [
+            "Easy Effects Sink"
+        ],
+        "scroll-step": 0.5, // %, can be a float
+        "format": "{icon} {volume}%",
+        "format-bluetooth": "{volume}% {icon}  {format_source}",
+        "format-bluetooth-muted": "  {icon}  {format_source}",
+        "format-muted": "",
+        "format-source": " {volume}%",
+        "format-source-muted": "",
+        "on-click": "wpctl set-mute @DEFAULT_SINK@ toggle",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": [
+                "",
+                "",
+                ""
+            ]
+        },
+        "on-click-right": "pavucontrol"
+    },
+    "pulseaudio#source": {
+        "ignored-sinks": [
+            "Easy Effects Sink"
+        ],
+        "format": "{format_source}",
+        "format-source": " {volume}%",
+        "format-source-muted": "",
+        "on-click": "wpctl set-mute @DEFAULT_SOURCE@ toggle",
+        "on-click-right": "/usr/bin/pavucontrol",
+        "on-scroll-down": "wpctl set-volume @DEFAULT_SOURCE@ 1%-",
+        "on-scroll-up": "wpctl set-volume @DEFAULT_SOURCE@ 1%+"
+    },
+    "wlr/taskbar": {
+        "icon-size": 16,
+        "on-click": "activate",
+        "on-click-right": "minimize",
+        "format": "{title}"
+    },
+    "custom/bluetooth": {
+        "format": "{}",
+        "interval": 10,
+        "max-length": 10,
+        "tooltip": true,
+        "tooltip-format": "{}",
+        "format-icons": {
+            "enabled": " ",
+            "disabled": ""
+        },
+        "exec": "rofi-bluetooth --status",
+        //"on-click-right": "/usr/bin/rofi-bluetooth",
+        "on-click-right": "blueman-manager"
+    },
+    "custom/weather": {
+        "format": "{}",
+        "tooltip": true,
+        "interval": 1800,
+        "exec": "$HOME/.config/waybar/waybar-wttr.py",
+        "return-type": "json"
+    },
+    "custom/flatpak-updates": {
+        "format-text": "{}",
+        "return-type": "json",
+        "interval": 600,
+        "exec": "~/.config/waybar/flatpak-updates.sh 2> /dev/null",
+        "exec-if": "exit 0",
+        "signal": 8
+    },
+    "custom/wlogout": {
+        "format": "",
+        "interval": "once",
+        "on-click": "wlogout -c 5 -r 5 -p layer-shell",
+    },
+    "custom/separator": {
+        "format": " ",
+        "interval": "once",
+        "tooltip": false
+    },
+    "keyboard-state": {
+        "numlock": false,
+        "capslock": true,
+        "format": "{icon}",
+        "format-icons": {
+            "locked": "",
+            "unlocked": ""
+        }
+    }
+}

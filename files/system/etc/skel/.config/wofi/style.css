@@ -1,0 +1,46 @@
+window {
+    margin: 0px;
+    border: 2px solid #454158; /* Pro Purple */
+    background-color: #22212C; /* Pro Background (Darker) */
+    border-radius: 10px;
+    background: rgba(34,33,44, 0.99);
+    font-family: "Noto Sans";
+    font-size: 14px;
+}
+
+#input {
+    margin: 5px;
+    border: none;
+    color: #F8F8F2;
+    background-color: #454158; /* Pro Selection */
+    border-radius: 5px;
+}
+
+#inner-box {
+    margin: 5px;
+    border: none;
+    background-color: #22212C;
+}
+
+#outer-box {
+    margin: 5px;
+    border: none;
+    background-color: #22212C;
+}
+
+#scroll {
+    margin: 0px;
+    border: none;
+}
+
+#text {
+    margin: 5px;
+    border: none;
+    color: #F8F8F2;
+}
+
+#entry:selected {
+    background-color: #454158; /* Pro Purple Highlight */
+    color: #22212C;
+    border-radius: 5px;
+}

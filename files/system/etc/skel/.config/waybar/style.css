@@ -1,0 +1,376 @@
+/* =============================================================================
+ *
+ * Waybar configuration
+ *
+ * Configuration reference: https://github.com/Alexays/Waybar/wiki/Configuration
+ *
+ * =========================================================================== */
+/* -----------------------------------------------------------------------------
+ * Keyframes
+ * -------------------------------------------------------------------------- */
+
+@import "dracula-semantic.css";
+/*@import "/home/emanuel/.cache/wal/colors-waybar.css";*/
+
+@keyframes blink-warning {
+    70% {
+	background-color: @background;
+    }
+
+    to {
+        background-color: @orange;
+    }
+}
+
+@keyframes blink-critical {
+    70% {
+      background-color: @background;
+    }
+
+    to {
+        background-color: @red;
+    }
+}
+
+
+/* -----------------------------------------------------------------------------
+ * Base styles
+ * -------------------------------------------------------------------------- */
+
+/* Reset all styles */
+/* {
+    all: unset;
+}*/
+* {
+    background-image: none;
+    box-shadow:initial;
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    color:unset;
+    font:unset;
+}
+
+/* The whole bar */
+#waybar {
+    background-color: transparent;
+    opacity: 0.90;
+    color: @off-white;
+    font-family: Noto Sans,"FontAwesome 5 Free Solid", sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+}
+/* Swayfx */
+window#waybar > box {
+    border-radius:6px;
+    margin: 3px 3px 3px 3px;
+    background-color: @background;
+    box-shadow: 2px 2px 2px 0px @background;
+}
+tooltip {
+  background-color: @background;
+  opacity: 0.94;
+  border-radius: 6px;
+}
+tooltip label {
+  color: @foreground;
+}
+
+/* Each module */
+#idle_inhibitor,
+#battery,
+#clock,
+#cpu,
+#custom-keyboard-layout,
+#memory,
+#mode,
+#network,
+#pulseaudio,
+#temperature,
+#tray 
+
+
+/* -----------------------------------------------------------------------------
+ * Module styles
+ * -------------------------------------------------------------------------- */
+#battery {
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    border-radius: 6px;
+    margin:2px;
+    padding-left:2px;
+    padding-right: 2px;
+}
+#battery.warning {
+}
+
+#battery.critical {
+}
+#battery.charging{
+    background-color: @purple;
+}
+#battery.warning.charging{
+    background-color: @purple;
+}
+#battery.warning.discharging {
+    animation-name: blink-warning;
+    animation-duration: 3s;
+}
+
+#battery.critical.discharging {
+    /*animation-name: blink-critical;
+    animation-duration: 1s;*/
+    background-color: @red;
+}
+
+#clock {
+    border-radius: 6px;
+    opacity: 0.9;
+    padding-left:5px;
+    padding-right:5px;
+    font-size: 13px;
+    background-color: @off-white;
+    color: @background;
+}
+
+#cpu {
+    border-radius:6px;
+    margin:2px;
+    padding-left:2px;
+    padding-right:2px;
+}
+
+#cpu.warning {
+    background-color: @orange;
+}
+
+#cpu.critical {
+    background-color: @red;
+}
+
+#memory {
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    border-radius: 6px;
+    margin:2px;
+    padding-left:2px;
+    padding-right:2px;
+}
+
+#memory.warning {
+    background-color: @orange;
+}
+
+#memory.critical {
+    color: @red;
+    animation-name: blink-critical;
+    animation-duration: 2s;
+}
+
+#mode {
+    background: @light-green;
+    color: @background;
+    border-radius: 6px;
+    /*border-top: 2px solid #FF80BF;*/
+    /* To compensate for the top border and still have vertical centering */
+    padding-right:5px;
+    padding-left:5px;
+}
+
+#network {
+    font-size:13px;
+
+}
+
+#network.disconnected {
+    color: @light-yellow;
+}
+
+#pulseaudio {
+    padding-left: 2px;
+}
+
+#pulseaudio.muted {
+    /*padding-bottom:2spx*/
+}
+
+#custom-spotify {
+   color:@background;
+   margin:2px;
+   /*background-color: rgb(102, 220, 105);*/
+   background-color: @green;
+   border-radius: 6px;
+   padding-left: 3px;
+   padding-right: 3px;
+   font-size:12px;
+   font-weight: normal;
+}
+
+#custom-ncspot {
+   color:@background;
+   margin:2px;
+   /*background-color: rgb(102, 220, 105);*/
+   background-color: @green;
+   border-radius: 6px;
+   padding-left: 3px;
+   padding-right: 3px;
+   font-size:12px;
+   font-weight: normal;
+}
+
+#custom-waybar-mpris {
+   color:@background;
+   margin:1px;
+   /*background-color: rgb(102, 220, 105);*/
+   background-color: @light-pink;
+   border-radius: 6px;
+   padding-left: 6px;
+   padding-right: 3px;
+   border-right: 10px;
+   font-size: 12px;
+   font-family: "Noto Sans Nerd Font";
+}
+
+#temperature {
+    border-radius:6px;
+    margin:2px;
+    padding-left:2px;
+    padding-right:2px;
+}
+
+#temperature.critical {
+    background-color: @red;
+}
+
+#tray{
+    font-weight: normal;
+    padding-right: 4px;
+    font-size: 14px;
+}
+
+#window {
+    font-weight: bold;
+    padding-left: 10px;
+}
+#workspaces{
+    padding-left: 1px;
+    padding-right: 5px;
+    font-size:11.5px;
+}
+#workspaces button {
+    border-top: 2px solid transparent;
+    /* To compensate for the top border and still have vertical centering */
+    padding-left: 4px;
+    padding-right: 4px;
+    /*color: #888888;*/
+    color: @off-white;
+    border-radius: 6px;
+    background-image: none;
+}
+
+#workspaces button:hover {
+    background-color: @off-white;
+    color: @background;
+    box-shadow: none;
+}
+
+#workspaces button.urgent{
+    /*background-color: #FF80BF;*/
+    background-color: @background;
+    color: @red;
+}
+
+#workspaces button.focused {
+    background-color: @off-white;
+    color: @background;
+}
+#workspaces button.active {
+    background-color: @off-white;
+    color: @background;
+}
+
+#idle_inhibitor{
+
+}
+#idle_inhibitor.activated{
+    color: @pink;
+}
+#idle_inhibitor.deactivated{
+    padding-top:2px;
+}
+#backlight {
+  padding-left: 2px;
+  padding-right: 2px;
+}
+#custom-bluetooth {
+  padding-left: 2px;
+  padding-right:3px;
+  font-weight: normal;
+  font-size: 13px;
+}
+#custom-weather {
+   margin: 2px;
+}
+#custom-notification {
+  font-size: 13px;
+  padding-left: 4px;
+  padding-right: 6px;
+}
+#custom-arch-updates {    
+  padding-left: 4px;
+  padding-right: 4px;
+}
+#custom-scratchpad-indicator {
+  padding-right: 4px;
+  padding-left: 4px;
+  padding-bottom: 1px;
+}
+#custom-wlogout {
+  padding-right: 6px;
+  padding-left: 6px;
+  padding-top: 2px;
+  font-size: 11px;
+  color: @background;
+  background-color: @light-purple;
+  border: 1px;
+  border-radius: 6px;
+  border-style: solid;
+  border-color: @background;
+  margin: 2px;
+}
+/* Estilo do Grupo (A Pílula em si) */
+#group-media {
+    background-color: @pink; /* Fundo escuro */
+    border: 1px solid @pink;       /* Borda rosa do Dracula */
+    border-radius: 20px;           /* Arredondamento máximo (Pill Shape) */
+    box-shadow: none;
+    margin: 1px;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+/* O ícone que fica sempre visível */
+#mpris-icon {
+    color: @pink;
+    font-size: 16px;
+    padding: 0 8px;
+    margin-right: 0;
+    background: transparent;
+}
+
+/* O conteúdo escondido (Controles e Texto) */
+#mpris-controls, #mpris-text {
+    color: @off-white;
+    padding: 0 6px;
+    background: transparent;
+    font-weight: bold;
+}
+
+#custom-separator {
+  color: #1B5E20;
+  margin: 0 1px;
+}

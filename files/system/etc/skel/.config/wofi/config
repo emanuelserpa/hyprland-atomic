@@ -1,0 +1,43 @@
+## Copyright (C) 2020-2022 Aditya Shakya <adi1090x@gmail.com>
+##
+## Wofi Config
+
+## General
+show=drun,run
+prompt=Apps
+normal_window=false
+#layer=top
+term=foot
+
+## Geometry
+width=600px
+height=400px
+location=2
+y=130
+#orientation=vertical
+halign=fill
+line_wrap=off
+dynamic_lines=false
+
+## Images
+allow_markup=true
+allow_images=true
+image_size=40
+
+## Search
+exec_search=false
+hide_search=false
+parse_search=false
+insensitive=true
+
+## Other
+hide_scroll=true
+no_actions=true
+sort_order=default
+gtk_dark=true
+filter_rate=100
+
+## Keys
+key_expand=Tab
+key_exit=Escape
+
