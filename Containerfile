@@ -46,8 +46,6 @@ RUN rpm-ostree install \
 
 # Remove packages
 RUN rpm-ostree override remove \
-    firefox \
-    firefox-langpacks \
     gnome-calculator \
     gnome-calendar \
     gnome-characters \
@@ -58,13 +56,10 @@ RUN rpm-ostree override remove \
     gnome-maps \
     gnome-weather \
     gnome-disk-utility \
-    gnome-system-monitor \
     totem \
     loupe \
     snapshot \
-    yelp \
-    gnome-tour \
-    gnome-software && rpm-ostree cleanup -m
+    yelp && rpm-ostree cleanup -m
 
 # Copy system files
 COPY files/system /
