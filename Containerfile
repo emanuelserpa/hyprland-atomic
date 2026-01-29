@@ -60,7 +60,6 @@ RUN rpm-ostree override remove \
     gnome-disk-utility \
     gnome-system-monitor \
     gnome-text-editor \
-    baobab \
     totem \
     loupe \
     snapshot \
