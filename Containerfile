@@ -41,7 +41,7 @@ RUN rpm-ostree install \
     && rpm-ostree cleanup -m
 
 # Remove packages
-RUN rpm-ostree override remove \
+RUN packages_to_remove=( \
     baobab \
     cheese \
     eog \
@@ -52,7 +52,25 @@ RUN rpm-ostree override remove \
     gnome-user-docs \
     gnome-bluetooth \
     gnome-color-manager \
-    && rpm-ostree cleanup -m
+    gnome-calculator \
+    gnome-calendar \
+    gnome-characters \
+    gnome-clocks \
+    gnome-contacts \
+    gnome-maps \
+    gnome-weather \
+    totem \
+    loupe \
+    snapshot \
+    ) && \
+    installed_packages=$(rpm -qa --qf "%{NAME}\n" | grep -E "^($(IFS=\|; echo "${packages_to_remove[*]}"))$") && \
+    if [ -n "$installed_packages" ]; then \
+    echo "Removing: $installed_packages"; \
+    rpm-ostree override remove $installed_packages; \
+    else \
+    echo "No packages to remove."; \
+    fi && \
+    rpm-ostree cleanup -m
 
 # Copy system files
 COPY files/system /
