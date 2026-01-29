@@ -59,12 +59,9 @@ RUN rpm-ostree override remove \
     gnome-weather \
     gnome-disk-utility \
     gnome-system-monitor \
-    gnome-text-editor \
     totem \
     loupe \
     snapshot \
-    simple-scan \
-    evince \
     yelp \
     gnome-tour \
     gnome-software && rpm-ostree cleanup -m
