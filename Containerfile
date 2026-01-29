@@ -42,7 +42,12 @@ RUN rpm-ostree install \
     fontawesome-fonts-all \
     steam \
     lutris \
+    zsh-autosuggestions \
+    zsh-syntax-highlighting \
     && rpm-ostree cleanup -m
+
+# Install Powerlevel10k
+RUN git clone --depth=1 https://github.com/romkatv/powerlevel10k.git /usr/share/zsh-theme-powerlevel10k
 
 # Enable GDM
 RUN systemctl enable gdm
