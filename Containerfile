@@ -3,7 +3,6 @@ FROM ghcr.io/ublue-os/bazzite-gnome:stable
 # Enable COPRs
 RUN dnf copr enable -y solopasha/hyprland && \
     dnf copr enable -y scottames/ghostty && \
-    dnf copr enable -y che/nerd-fonts && \
     printf "[insync]\nname=insync repo\nbaseurl=http://yum.insync.io/fedora/\$releasever/\nenabled=1\ngpgcheck=1\ngpgkey=https://d2t3ff60b2tol4.cloudfront.net/repomd.xml.key\nmetadata_expire=120m\n" > /etc/yum.repos.d/insync.repo && \
     rpm --import https://d2t3ff60b2tol4.cloudfront.net/repomd.xml.key
 
@@ -35,10 +34,7 @@ RUN rpm-ostree install \
     foot \
     network-manager-applet \
     insync \
-    python3-pip \
     google-noto-sans-fonts \
-    google-noto-sans-cjk-fonts \
-    nerd-fonts \
     playerctl \
     python3-requests \
     fontawesome-fonts-all \
