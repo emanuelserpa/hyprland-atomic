@@ -9,7 +9,7 @@ RUN dnf copr enable -y sdegler/hyprland && \
 # Install packages
 RUN rpm-ostree install \
     hyprland \
-    hyprpaper \
+    ghostty \
     hypridle \
     hyprlock \
     xdg-desktop-portal-hyprland \
@@ -67,6 +67,21 @@ RUN packages_to_remove=( \
     totem \
     loupe \
     snapshot \
+    gnome-software \
+    gnome-disk-utility \
+    gnome-system-monitor \
+    gnome-logs \
+    gnome-font-viewer \
+    yelp \
+    gnome-tour \
+    gnome-backgrounds \
+    gnome-screenshot \
+    gnome-connections \
+    gnome-remote-desktop \
+    rygel \
+    sushi \
+    orca \
+    gnome-themes-extra \
     ) && \
     installed_packages=$(rpm -qa --qf "%{NAME}\n" | grep -E "^($(IFS=\|; echo "${packages_to_remove[*]}"))$") && \
     if [ -n "$installed_packages" ]; then \
