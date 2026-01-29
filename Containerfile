@@ -42,18 +42,9 @@ RUN rpm-ostree install \
 
 # Remove packages
 RUN rpm-ostree override remove \
-    gnome-calendar \
-    gnome-characters \
-    gnome-clocks \
-    gnome-contacts \
     gnome-font-viewer \
     gnome-logs \
-    gnome-maps \
-    gnome-weather \
     gnome-disk-utility \
-    totem \
-    loupe \
-    snapshot \
     yelp && rpm-ostree cleanup -m
 
 # Copy system files
