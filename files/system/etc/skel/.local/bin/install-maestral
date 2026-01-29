@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Ensure User Flathub remote exists (since we removed system one)
+if ! flatpak remote-list --user | grep -q "flathub"; then
+    flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+fi
+
+# Install Maestral via pip if missing
+if ! command -v maestral &>/dev/null; then
+    echo "Installing Maestral..."
+    pip install --user --no-cache-dir "maestral[gui]"
+fi
