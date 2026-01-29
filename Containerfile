@@ -38,7 +38,12 @@ RUN rpm-ostree install \
     playerctl \
     python3-requests \
     fontawesome-fonts-all \
+    zsh-autosuggestions \
+    zsh-syntax-highlighting \
     && rpm-ostree cleanup -m
+
+# Install Powerlevel10k
+RUN git clone --depth=1 https://github.com/romkatv/powerlevel10k.git /usr/share/zsh-theme-powerlevel10k
 
 # Remove packages
 RUN packages_to_remove=( \
