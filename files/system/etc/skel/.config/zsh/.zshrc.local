@@ -9,10 +9,19 @@ zstyle ':completion:*:hosts' known-hosts-files ~/.ssh/known_hosts
 
 zstyle ':completion:*' rehash true
 zstyle ':completion:*' cache-path $XDG_CACHE_HOME/zsh/zcompcache
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
 fpath=(/usr/share/zsh/site-functions/ $fpath)
+# --- Plugins Oficiais do Fedora ---
+
+# Carrega o realce de sintaxe
+if [ -f /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
+    source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
+
+# Carrega as sugestões automáticas
+if [ -f /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
+    source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+fi
+
 
 #  fi
 #}
