@@ -1,0 +1,7 @@
+# Environment exported by UWSM for the graphical session.
+
+export XCURSOR_THEME=Adwaita
+export XCURSOR_SIZE=24
+export QT_QPA_PLATFORMTHEME=qt6ct
+export QT_STYLE_OVERRIDE=kvantum
+export PATH="${PATH}:${HOME}/bin"

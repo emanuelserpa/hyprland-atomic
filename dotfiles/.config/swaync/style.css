@@ -1,0 +1,315 @@
+@import "themes/catmocha.css";
+
+/* ---------------- Catppuccin Mocha Palette ---------------- */
+
+@define-color foreground #cdd6f4;
+@define-color background #1e1e2e;
+@define-color cursor #f5e0dc;
+@define-color orange #fab387;
+
+@define-color dark-grey #45475a;
+@define-color red #f38ba8;
+@define-color green #a6e3a1;
+@define-color yellow #f9e2af;
+@define-color purple #89b4fa;
+@define-color pink #f5c2e7;
+@define-color cyan #94e2d5;
+@define-color off-white #bac2de;
+@define-color grey #585b70;
+@define-color light-red #f38ba8;
+@define-color light-green #a6e3a1;
+@define-color light-yellow #f9e2af;
+@define-color light-purple #89b4fa;
+@define-color light-pink #f5c2e7;
+@define-color light-cyan #94e2d5;
+@define-color white #a6adc8;
+
+/* ---------------- Variables ---------------- */
+
+:root {
+  --cc-bg: @background;
+  --noti-bg: #252538;
+  --noti-border-color: @dark-grey;
+  --border-radius: 14px;
+}
+
+/* ---------------- Main Control Center ---------------- */
+
+notificationwindow,
+blankwindow {
+  background: transparent;
+}
+
+.control-center {
+  background: @background;
+  border: 1px solid @dark-grey;
+  border-radius: var(--border-radius);
+  color: @foreground;
+}
+
+/* Keeps widgets sitting on the solid control-center surface */
+.widget-title,
+.widget-dnd,
+.widget-buttons-grid,
+.widget-mpris,
+.widget-volume,
+.widget-backlight,
+.widget-notifications {
+  background: transparent;
+}
+
+/* ---------------- Header ---------------- */
+
+.widget-title {
+  margin: 0 3px;
+  color: @foreground;
+}
+
+.widget-title > label {
+  color: @foreground;
+  font-weight: 700;
+}
+
+/* Clear all button */
+.widget-title > button {
+  background: #313244;
+  color: @foreground;
+  border: 1px solid @dark-grey;
+  border-radius: 10px;
+  padding: 6px 12px;
+}
+
+.widget-title > button:hover {
+  background: @purple;
+  color: @background;
+  border-color: @purple;
+}
+
+/* ---------------- Do Not Disturb ---------------- */
+
+.widget-dnd {
+  color: @foreground;
+}
+
+.widget-dnd > switch {
+  background: #313244;
+  border-radius: 14px;
+  border: 1px solid @dark-grey;
+}
+
+.widget-dnd > switch:checked {
+  background: @purple;
+}
+
+.widget-dnd > switch slider {
+  background: @foreground;
+  border-radius: 50%;
+  min-width: 14px;
+  min-height: 14px;
+}
+
+/* ---------------- Buttons Grid ---------------- */
+
+.widget-buttons-grid {
+  margin: 6px;
+  padding: 4px;
+}
+
+.widget-buttons-grid button {
+  background: #313244;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 18px;
+
+  color: @purple;
+  border: 1px solid @dark-grey;
+}
+
+.widget-buttons-grid button:hover {
+  background: @purple;
+  border-color: @purple;
+  color: @background;
+}
+
+.widget-buttons-grid button:checked {
+  background: @purple;
+  border-color: @purple;
+  color: @background;
+}
+
+/* ---------------- MPRIS ---------------- */
+
+.widget-mpris {
+  margin: 0 -8px;
+  padding: 6px 10px;
+}
+
+.widget-mpris-player {
+}
+
+/* Album art */
+.widget-mpris-album-art,
+.image-widget-mpris-album-art {
+  min-width: 44px;
+  min-height: 44px;
+  margin-right: 10px;
+  border-radius: 10px;
+  border: 1px solid @dark-grey;
+}
+
+/* Song title */
+.widget-mpris-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: @foreground;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.95);
+}
+
+/* Artist */
+.widget-mpris-subtitle {
+  font-size: 11px;
+  color: @off-white;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.95);
+}
+
+/* Player controls */
+.widget-mpris-player button {
+  margin: 8px 4px 0;
+  min-width: 30px;
+  min-height: 30px;
+  padding: 0;
+
+  background: #313244;
+  border: 1px solid @dark-grey;
+  border-radius: 15px;
+
+  color: @purple;
+}
+
+.widget-mpris-player button:hover {
+  background: @purple;
+  border-color: @purple;
+  color: @background;
+}
+
+.widget-mpris-player button:active {
+  background: @cyan;
+  border-color: @cyan;
+  color: @background;
+}
+
+/* ---------------- Volume / Brightness ---------------- */
+
+.widget-volume,
+.widget-backlight {
+  color: @foreground;
+}
+
+.widget-volume scale trough,
+.widget-backlight scale trough {
+  background: #313244;
+  border-radius: 8px;
+  min-height: 8px;
+}
+
+.widget-volume scale highlight,
+.widget-backlight scale highlight {
+  background: @pink;
+  border-radius: 8px;
+}
+
+.widget-volume scale slider,
+.widget-backlight scale slider {
+  background: @foreground;
+  border-radius: 50%;
+  min-width: 14px;
+  min-height: 14px;
+}
+
+/* ---------------- Notifications ---------------- */
+
+.notification-row {
+  background: transparent;
+  outline: none;
+  margin: 3px 5px;
+}
+
+.notification-row .notification-background,
+.notification-row .notification-background .notification {
+  background: transparent;
+  box-shadow: none;
+}
+
+.notification-row .notification-background .notification {
+  background: var(--noti-bg);
+  border-radius: 11px;
+  border: 1px solid var(--noti-border-color);
+
+  padding: 7px 9px;
+  box-shadow: none;
+}
+
+.notification-row:hover .notification-background .notification {
+  background: #313244;
+  border-color: @purple;
+}
+
+.notification-content {
+  padding: 1px;
+  color: @foreground;
+}
+
+/* Imagem principal: avatar/foto da conversa */
+.notification .notification-content .image {
+  border-radius: 9px;
+  margin-right: 7px;
+  min-width: 40px;
+  min-height: 40px;
+}
+
+/* Pequeno ícone do aplicativo sobre a imagem */
+.notification .app-icon {
+  min-width: 16px;
+  min-height: 16px;
+  margin: 0;
+  border-radius: 5px;
+}
+
+.summary {
+  font-size: 14px;
+  font-weight: 600;
+  color: @foreground;
+}
+
+.body {
+  font-size: 13px;
+  color: @off-white;
+  opacity: 1;
+}
+
+.time {
+  color: @off-white;
+  font-size: 11px;
+}
+
+.close-button {
+  background: transparent;
+  border-radius: 50%;
+  margin-top: 2px;
+  margin-right: 2px;
+  min-width: 18px;
+  min-height: 18px;
+  color: @foreground;
+}
+
+.close-button:hover {
+  background: alpha(@red, 0.30);
+  color: @red;
+}
+
+/* ---------------- Remove GTK Focus Outline ---------------- */
+
+*:focus {
+  outline: none;
+  box-shadow: none;
+}

@@ -1,0 +1,7 @@
+[insync]
+name=Insync upstream repository
+baseurl=http://yum.insync.io/fedora/$releasever/
+enabled=1
+gpgcheck=1
+gpgkey=https://d2t3ff60b2tol4.cloudfront.net/repomd.xml.key
+metadata_expire=120m

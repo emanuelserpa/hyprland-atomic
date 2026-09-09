@@ -1,0 +1,48 @@
+/* Catppuccin Mocha Pink - Custom Launcher Theme */
+
+@define-color base           #1e1e2e; /* Fundo principal */
+@define-color mantle         #181825; /* Fundo secundário (input) */
+@define-color crust          #11111b; /* Tom mais escuro para contraste */
+@define-color text           #cdd6f4; /* Texto claro */
+@define-color surface1       #45475a; /* Bordas e superfícies */
+@define-color pink           #f5c2e7; /* O sotaque Rosa Catppuccin */
+
+window {
+    margin: 0px;
+    border: 2px solid @pink; /* Borda elegante em Pink */
+    background-color: @base;
+    border-radius: 10px;
+    font-family: "Noto Sans", sans-serif;
+    font-size: 14px;
+}
+#input {
+    margin: 5px;
+    border: 1px solid @surface1;
+    color: @text;
+    background-color: @mantle; /* Campo de busca ligeiramente mais escuro */
+    border-radius: 5px;
+    padding: 4px 8px;
+}
+
+#inner-box {
+    margin: 1px;
+    border: none;
+    background-color: @base;
+}
+
+#outer-box {
+    margin: 5px;
+    border: none;
+    background-color: @base;
+}
+
+#scroll {
+    margin: 0px;
+    border: none;
+}
+
+#text {
+    margin: 5px;
+    border: none;
+    color: @text;
+}

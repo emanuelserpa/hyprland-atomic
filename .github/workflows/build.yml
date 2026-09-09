@@ -1,53 +1,45 @@
-name: build-bootc
+name: bluebuild
+
 on:
+  schedule:
+    - cron: "00 06 * * *"
   push:
     branches:
       - main
-  schedule:
-    - cron: '0 0 * * *'
+    paths-ignore:
+      - "**.md"
+  pull_request:
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
-  build:
+  validate:
+    name: Validate repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Validate configuration and scripts
+        run: ./VALIDATE_REPOSITORY.sh
+
+  bluebuild:
+    name: Build hyprland-atomic
+    needs: validate
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
       id-token: write
     steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-
-      - name: Build Image
-        id: build-image
-        uses: redhat-actions/buildah-build@v2
+      - name: Build custom image
+        uses: blue-build/github-action@v1.11
         with:
-          image: hyprland-atomic
-          tags: latest ${{ github.sha }}
-          containerfiles: |
-            ./Containerfile
-
-      - name: Push Image
-        id: push
-        uses: redhat-actions/push-to-registry@v2
-        with:
-          image: ${{ steps.build-image.outputs.image }}
-          tags: ${{ steps.build-image.outputs.tags }}
-          registry: ghcr.io/${{ github.repository_owner }}
-          extra-args:
-            --compression-format=zstd:chunked
-          username: ${{ github.actor }}
-          password: ${{ github.token }}
-
-      - name: Install Cosign
-        uses: sigstore/cosign-installer@v4.0.0
-
-      - name: Login to GHCR
-        run: echo "${{ github.token }}" | cosign login ghcr.io -u ${{ github.actor }} --password-stdin
-
-      - name: Sign the images
-        run: |
-          cosign sign -y --key env://COSIGN_PRIVATE_KEY ghcr.io/${{ github.repository_owner }}/${{ steps.build-image.outputs.image }}@${{ steps.push.outputs.digest }}
-        env:
-          COSIGN_PRIVATE_KEY: ${{ secrets.SIGNING_SECRET }}
-          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+          recipe: recipes/recipe.yml
+          cosign_private_key: ${{ secrets.SIGNING_SECRET }}
+          registry_token: ${{ github.token }}
+          pr_event_number: ${{ github.event.number }}
+          maximize_build_space: true

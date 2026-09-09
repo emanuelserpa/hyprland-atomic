@@ -1,0 +1,313 @@
+{
+  "layer": "top",
+  "position": "top",
+  "ipc": true,
+
+  "modules-left": [
+    "group/left"
+  ],
+
+  "modules-center": [
+    "group/center"
+  ],
+
+  "modules-right": [
+    "group/right"
+  ],
+
+  "group/left": {
+    "orientation": "horizontal",
+    "modules": [
+      "hyprland/workspaces",
+      "custom/separator",
+      "group/media",
+      "hyprland/submap"
+    ]
+  },
+
+  "group/center": {
+    "orientation": "horizontal",
+    "modules": [
+      "clock"
+    ]
+  },
+
+  "group/right": {
+    "orientation": "horizontal",
+    "modules": [
+//      "keyboard-state",
+      "idle_inhibitor",
+      "custom/flatpak-updates",
+      "custom/weather",
+      "pulseaudio#sink",
+      "pulseaudio#source",
+      "temperature",
+      "battery",
+      "tray",
+      "custom/bluetooth",
+      "custom/notification"
+    ]
+  },
+ "hyprland/workspaces": {
+    "format": "{icon}",
+    "sort-by-number": true,
+    "disable-scroll": false,
+    "tooltip": false,
+    "persistent-workspaces": {
+        "*": 10
+    },
+    "format-icons": {
+    "1":  "󰖟 ₁",
+    "2":  " ₂",
+    "3":  "󰭹 ₃",
+    "4":  "󰎆 ₄",
+    "5":  "󰉋 ₅",
+    "6":  "󰈙 ₆",
+    "7":  " ₇",
+    "8":  "󰊗 ₈",
+    "9":  "󰅩 ₉",
+    "10": " ₁₀"
+    }
+  },
+
+  "hyprland/submap": {
+    "format": " {}"
+  },
+
+      "group/media": {
+      "orientation": "horizontal",
+
+      "drawer": {
+        "transition-duration": 250,
+        "reveal-delay": 120,
+        "children-class": "media-control",
+        "transition-left-to-right": true
+      },
+
+      "modules": [
+        "custom/mpris-now",
+        "custom/mpris-artist",
+        "custom/media-prev",
+        "custom/mpris-toggle",
+        "custom/media-next"
+      ]
+    },
+
+    "custom/mpris-now": {
+      "exec": "~/.config/waybar/scripts/mpris-safe.sh now",
+      "return-type": "json",
+      "format": "{}",
+      "escape": false,
+
+      "max-length": 34,
+      "tooltip": true,
+
+      "on-click": "playerctl --player=playerctld play-pause",
+      "on-click-middle": "playerctl --player=playerctld previous",
+      "on-click-right": "playerctl --player=playerctld next",
+
+      "exec-on-event": false
+    },
+
+    "custom/mpris-artist": {
+      "exec": "~/.config/waybar/scripts/mpris-safe.sh artist",
+      "return-type": "json",
+      "format": "{}",
+      "escape": false,
+
+      "max-length": 22,
+      "tooltip": false,
+
+      "exec-on-event": false
+    },
+
+    "custom/media-prev": {
+      "format": "",
+      "tooltip": false,
+      "on-click": "playerctl --player=playerctld previous"
+    },
+
+    "custom/mpris-toggle": {
+      "exec": "~/.config/waybar/scripts/mpris-safe.sh toggle",
+      "return-type": "json",
+      "format": "{}",
+
+      "tooltip": false,
+
+      "on-click": "playerctl --player=playerctld play-pause",
+
+      "exec-on-event": false
+    },
+
+    "custom/media-next": {
+      "format": "",
+      "tooltip": false,
+      "on-click": "playerctl --player=playerctld next"
+    },
+  "idle_inhibitor": {
+    "format": "{icon}",
+    "format-icons": {
+      "activated": "",
+      "deactivated": ""
+    }
+  },
+
+  "tray": {
+    "icon-size": 14,
+    "spacing": 2,
+    "ignored-list": [
+      "fcitx5"
+    ]
+  },
+
+  "clock": {
+    "format": " {:%d/%m   %H:%M}",
+    "locale": "pt_BR.UTF-8",
+//    "format-alt": "  {:%A, %d de %B}",
+    "tooltip-format": "<tt><small>{calendar}</small></tt>",
+    "calendar": {
+      "mode": "month",
+      "mode-mon-col": 3,
+      "weeks-pos": "right",
+      "on-scroll": 1,
+      "on-click-right": "mode",
+      "format": {
+        "months": "<span color='#cba6f7'><b>{}</b></span>",
+        "days": "<span color='#cdd6f4'><b>{}</b></span>",
+        "weeks": "<span color='#89b4fa'><b>W{}</b></span>",
+        "weekdays": "<span color='#f9e2af'><b>{}</b></span>",
+        "today": "<span color='#f5c2e7'><b><u>{}</u></b></span>"
+      }
+    },
+    "actions": {
+      "on-click-right": "mode"
+    }
+  },
+
+  "temperature": {
+    "critical-threshold": 80,
+    "format": "{icon} {temperatureC}°C",
+    "format-icons": [
+      "",
+      ""
+    ],
+    "tooltip": false
+  },
+
+  "battery": {
+    "states": {
+      "good": 95,
+      "warning": 35,
+      "critical": 15
+    },
+    "format": "{icon} {capacity}%",
+    "format-charging": " {capacity}%",
+    "format-plugged": " {capacity}%",
+    "format-icons": [
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    "tooltip-format": "Consumo atual: {power:0.1f}W\nTempo restante: {time}",
+    "interval": 10,
+    "weighted-average": true
+  },
+
+  "pulseaudio#sink": {
+    "ignored-sinks": [
+      "Easy Effects Sink"
+    ],
+    "scroll-step": 1,
+    "format": "{icon} {volume}%",
+    "format-bluetooth": "{volume}% {icon}",
+    "format-bluetooth-muted": " {icon}",
+    "format-muted": "",
+    "format-source": " {volume}%",
+    "format-source-muted": "",
+    "format-icons": {
+      "headphone": "",
+      "hands-free": "",
+      "headset": "",
+      "phone": "",
+      "portable": "",
+      "car": "",
+      "default": [
+        "",
+        "",
+        ""
+      ]
+    },
+    "on-click-right": "pwvucontrol &",
+    "on-click": "wpctl set-mute @DEFAULT_SINK@ toggle &"
+  },
+
+  "pulseaudio#source": {
+    "format": "{format_source}",
+    "format-source": " {volume}%",
+    "format-source-muted": "",
+    "on-click": "wpctl set-mute @DEFAULT_SOURCE@ toggle &",
+    "on-click-right": "pwvucontrol &",
+    "on-scroll-down": "wpctl set-volume @DEFAULT_SOURCE@ 1%- &",
+    "on-scroll-up": "wpctl set-volume @DEFAULT_SOURCE@ 1%+ &"
+  },
+
+  "custom/weather": {
+    "format": "{}",
+    "tooltip": true,
+    "interval": 900,
+    "exec": "$HOME/.config/waybar/scripts/waybar-wttr.py",
+    "return-type": "json"
+  },
+
+  "custom/bluetooth": {
+    "format": "",
+    "tooltip": true,
+    "tooltip-format": "Gerenciar Bluetooth",
+    "on-click": "blueman-manager"
+  },
+
+  "custom/notification": {
+    "tooltip": false,
+    "format": "{icon}",
+    "format-icons": {
+      "notification": "<span foreground='red'><sup></sup></span>",
+      "none": "",
+      "dnd-notification": "<span foreground='red'><sup></sup></span>",
+      "dnd-none": ""
+    },
+    "return-type": "json",
+    "exec-if": "which swaync-client",
+    "exec": "swaync-client -swb",
+    "on-click": "swaync-client -t -sw",
+    "on-click-right": "swaync-client -d -sw",
+    "escape": true
+  },
+
+  "custom/flatpak-updates": {
+    "format": "{}",
+    "return-type": "json",
+    "interval": 600,
+    "exec": "~/.config/waybar/scripts/flatpak-updates.sh 2> /dev/null",
+    "exec-if": "exit 0",
+    "on-click": "ghostty -e flatpak update",
+    "signal": 8
+  },
+
+  "custom/separator": {
+    "format": "│",
+    "interval": "once",
+    "tooltip": false
+  },
+
+  "keyboard-state": {
+    "numlock": false,
+    "capslock": true,
+    "format": "{icon}",
+    "format-icons": {
+      "locked": "",
+      "unlocked": ""
+    }
+  }
+}

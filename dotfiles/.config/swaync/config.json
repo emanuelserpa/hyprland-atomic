@@ -1,0 +1,76 @@
+{
+  "$schema": "/etc/xdg/swaync/configSchema.json",
+  "layer": "top",
+  "positionX": "right",
+  "positionY": "top",
+  "control-center-layer": "top",
+  "control-center-max-notifications": 20,
+  "control-center-width": 380,
+  "control-center-height": 800,
+  "control-center-margin-top": 2,
+  "control-center-margin-bottom": 2,
+  "control-center-margin-right": 1,
+  "control-center-margin-left": 0,
+  "notification-window-width": 400,
+  "notification-icon-size": 40,
+  "notification-body-image-height": 84,
+  "notification-body-image-width": 84,
+  "timeout": 10,
+  "timeout-low": 5,
+  "timeout-critical": 0,
+  "fit-to-screen": false,
+  "keyboard-shortcuts": true,
+  "image-visibility": "when-available",
+  "transition-time": 80,
+  "hide-on-clear": false,
+  "hide-on-action": true,
+  "script-fail-notify": true,
+  "widgets": [
+    "mpris",
+    "volume",
+    "backlight",
+    "title",
+    "dnd",
+    "notifications"
+  ],
+  "widget-config": {
+    "title": {
+      "text": "Notificações",
+      "clear-all-button": true,
+      "button-text": "Limpar Tudo"
+    },
+    "dnd": {
+      "text": "Não perturbe",
+      "do-not-disturb-on-startup": false
+    },
+    "notifications": {
+      "vexpand": true
+    },
+    "mpris": {
+      "image-size": 52,
+      "image-radius": 8,
+      "show-album-art": "never",
+      "blacklist": [
+        "firefox",
+        "chromium",
+        "brave",
+        "mpv",
+        "playerctl"
+      ],
+      "autohide": true,
+      "prefer": [
+        "spotify"
+      ]
+    },
+    "volume": {
+      "label": "󰕾",
+      "show-per-app": false
+    },
+    "backlight": {
+      "label": "󰃠",
+      "device": "amdgpu_bl1",
+      "subsystem": "backlight",
+      "min": 10
+    }
+  }
+}

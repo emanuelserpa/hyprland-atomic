@@ -1,0 +1,512 @@
+@import "catppuccin-mocha.css";
+
+/* ============================================================
+ * RESET
+ * ============================================================ */
+
+* {
+    background-image: none;
+    box-shadow: none;
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    color: unset;
+    font: unset;
+}
+
+
+/* ============================================================
+ * WAYBAR
+ * ============================================================ */
+
+#waybar {
+    background: transparent;
+    color: @off-white;
+
+    font-family: "Noto Sans Nerd Font", "Noto Sans", sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+
+/* Barra principal — propositalmente maior que as pills */
+window#waybar > box {
+    margin: 3px;
+
+    min-height: 31px;
+    padding: 0 5px;
+
+    background: #1e1e2e;
+
+    border: 1px solid #313244;
+    border-radius: 9px;
+
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+}
+
+
+/* ============================================================
+ * TOOLTIPS
+ * ============================================================ */
+
+tooltip {
+    background: #1e1e2e;
+
+    border: 1px solid #45475a;
+    border-radius: 8px;
+}
+
+tooltip label {
+    color: @foreground;
+    padding: 5px 7px;
+}
+
+
+/* ============================================================
+ * WORKSPACES
+ * ============================================================ */
+
+#workspaces {
+    padding: 0 3px 0 1px;
+}
+
+#workspaces button {
+    min-width: 22px;
+    min-height: 21px;
+
+    padding: 0 4px;
+    margin: 4px 2px;
+
+    background: rgba(49, 50, 68, 0.55);
+    color: @off-white;
+
+    border: none;
+    border-radius: 5px;
+}
+
+#workspaces button:hover {
+    background: rgba(69, 71, 90, 0.70);
+    color: @light-purple;
+}
+
+#workspaces button.focused,
+#workspaces button.active {
+    background: rgba(108, 99, 187, 0.82);
+    color: #f5f3ff;
+}
+
+#workspaces button.urgent {
+    background: @red;
+    color: @background;
+}
+
+
+/* ============================================================
+ * SEPARADOR
+ * ============================================================ */
+
+#custom-separator {
+    color: #585b70;
+    margin: 0 4px;
+}
+
+
+/* ============================================================
+ * SUBMAP
+ * ============================================================ */
+
+#submap {
+    min-height: 21px;
+
+    padding: 0 6px;
+    margin: 4px 2px;
+
+    color: @light-green;
+    background: rgba(49, 50, 68, 0.55);
+
+    border: none;
+    border-radius: 5px;
+}
+
+
+/* ============================================================
+ * RELÓGIO
+ * ============================================================ */
+
+#clock {
+    min-height: 21px;
+
+    padding: 0 10px;
+    margin: 4px 2px;
+
+    color: @light-purple;
+    background: transparent;
+
+    font-size: 14px;
+    font-weight: 700;
+}
+
+
+/* ============================================================
+ * PILLS / WIDGETS
+ * ============================================================ */
+
+#keyboard-state,
+#idle_inhibitor,
+#custom-flatpak-updates,
+#custom-weather,
+#pulseaudio,
+#temperature,
+#battery,
+#tray,
+#custom-bluetooth,
+#custom-notification,
+#backlight,
+#network,
+#cpu,
+#memory,
+#custom-scratchpad-indicator {
+    min-height: 21px;
+
+    padding: 0 5px;
+    margin: 4px 2px;
+
+    background: rgba(49, 50, 68, 0.55);
+
+    border: none;
+    border-radius: 5px;
+}
+
+
+/* Hover */
+#keyboard-state:hover,
+#idle_inhibitor:hover,
+#custom-flatpak-updates:hover,
+#custom-weather:hover,
+#pulseaudio:hover,
+#temperature:hover,
+#battery:hover,
+#custom-bluetooth:hover,
+#custom-notification:hover,
+#backlight:hover,
+#network:hover,
+#cpu:hover,
+#memory:hover,
+#custom-scratchpad-indicator:hover {
+    background: rgba(69, 71, 90, 0.70);
+}
+
+
+/* ============================================================
+ * KEYBOARD
+ * ============================================================ */
+
+#keyboard-state {
+    color: @pink;
+}
+
+
+/* ============================================================
+ * IDLE INHIBITOR
+ * ============================================================ */
+
+#idle_inhibitor {
+    color: @off-white;
+}
+
+#idle_inhibitor.activated {
+    color: @pink;
+    background: rgba(69, 71, 90, 0.75);
+}
+
+
+/* ============================================================
+ * UPDATES
+ * ============================================================ */
+
+#custom-flatpak-updates {
+    color: @light-cyan;
+}
+
+
+/* ============================================================
+ * WEATHER
+ * ============================================================ */
+
+#custom-weather {
+    color: @off-white;
+}
+
+
+/* ============================================================
+ * ÁUDIO
+ * ============================================================ */
+
+#pulseaudio {
+    color: @light-cyan;
+}
+
+#pulseaudio.muted {
+    color: #6c7086;
+}
+
+
+/* ============================================================
+ * TEMPERATURA
+ * ============================================================ */
+
+#temperature {
+    color: @light-yellow;
+}
+
+#temperature.critical {
+    color: @red;
+    background: rgba(69, 71, 90, 0.75);
+}
+
+
+/* ============================================================
+ * CPU
+ * ============================================================ */
+
+#cpu {
+    color: @light-purple;
+}
+
+
+/* ============================================================
+ * MEMÓRIA
+ * ============================================================ */
+
+#memory {
+    color: @light-cyan;
+}
+
+
+/* ============================================================
+ * REDE
+ * ============================================================ */
+
+#network {
+    color: @light-cyan;
+}
+
+#network.disconnected {
+    color: @red;
+}
+
+
+/* ============================================================
+ * BACKLIGHT
+ * ============================================================ */
+
+#backlight {
+    color: @light-yellow;
+}
+
+
+/* ============================================================
+ * BATERIA
+ * ============================================================ */
+
+#battery {
+    color: @light-green;
+}
+
+#battery.charging,
+#battery.warning.charging {
+    color: @purple;
+}
+
+#battery.warning.discharging {
+    color: @orange;
+    animation: none;
+}
+
+#battery.critical.discharging {
+    color: @red;
+    background: rgba(69, 71, 90, 0.75);
+}
+
+
+/* ============================================================
+ * PERFIL DE BATERIA
+ * ============================================================ */
+
+#custom-battery_mode {
+    color: @green;
+}
+
+
+/* ============================================================
+ * BLUETOOTH
+ * ============================================================ */
+
+#custom-bluetooth {
+    color: @light-cyan;
+}
+
+
+/* ============================================================
+ * NOTIFICAÇÕES
+ * ============================================================ */
+
+#custom-notification {
+    color: @off-white;
+}
+
+
+/* ============================================================
+ * TRAY
+ * ============================================================ */
+
+#tray {
+    padding-left: 6px;
+    padding-right: 6px;
+    font-weight: normal;
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+}
+
+/* ============================================================
+ * MEDIA PLAYER
+ *
+ * group/media          -> #media
+ * custom/mpris-now     -> #custom-mpris-now
+ * custom/mpris-artist  -> #custom-mpris-artist
+ * custom/mpris-toggle  -> #custom-mpris-toggle
+ * ============================================================ */
+
+#media {
+    min-height: 21px;
+
+    margin: 4px 2px;
+    padding: 0 4px;
+
+    background: rgba(49, 50, 68, 0.55);
+
+    border: none;
+    border-radius: 5px;
+}
+
+
+/* Drawer aberto */
+#media.expanded {
+    background: rgba(69, 71, 90, 0.70);
+}
+
+
+/* ============================================================
+ * MÚSICA
+ * ============================================================ */
+
+#custom-mpris-now {
+    padding: 0 5px;
+
+    color: @off-white;
+
+    font-weight: 600;
+}
+
+#custom-mpris-now.playing {
+    color: @light-pink;
+}
+
+#custom-mpris-now.paused {
+    color: @white;
+}
+
+
+/* Spotify */
+#custom-mpris-now.spotify {
+    color: @light-green;
+}
+
+
+/* Firefox */
+#custom-mpris-now.firefox {
+    color: @orange;
+}
+
+
+/* Chromium */
+#custom-mpris-now.chromium {
+    color: @light-blue;
+}
+
+
+/* ============================================================
+ * ARTISTA
+ * ============================================================ */
+
+#custom-mpris-artist {
+    padding: 0 4px;
+
+    color: @white;
+
+    font-size: 12px;
+    font-weight: 500;
+}
+
+#custom-mpris-artist.playing {
+    color: @light-purple;
+}
+
+#custom-mpris-artist.paused {
+    color: #6c7086;
+}
+
+
+/* ============================================================
+ * CONTROLES DO PLAYER
+ * ============================================================ */
+
+#custom-media-prev,
+#custom-mpris-toggle,
+#custom-media-next {
+    min-width: 19px;
+
+    padding: 0 3px;
+
+    color: @off-white;
+}
+
+
+/* Separação discreta */
+#custom-media-prev {
+    margin-left: 2px;
+    padding-left: 6px;
+
+    border-left: 1px solid rgba(88, 91, 112, 0.65);
+}
+
+
+/* Play / pause */
+#custom-mpris-toggle {
+    color: @light-pink;
+    font-size: 13px;
+}
+
+
+/* Hover */
+#custom-media-prev:hover,
+#custom-mpris-toggle:hover,
+#custom-media-next:hover {
+    color: @light-purple;
+}
+
+/* ============================================================
+ * SCRATCHPAD
+ * ============================================================ */
+
+#custom-scratchpad-indicator {
+    color: @off-white;
+}

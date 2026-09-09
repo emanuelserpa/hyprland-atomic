@@ -1,0 +1,24 @@
+recipes/recipe.yml: YAML syntax OK
+.github/workflows/build.yml: YAML syntax OK
+
+Package names checked for Fedora 44 before packaging:
+- SwayNotificationCenter
+- thinkfan
+- scx_layered
+- scx_rusty
+- scottames/ghostty COPR has Fedora 44 builds
+- nemo
+- rofimoji
+- swappy
+- qt6ct
+- kvantum
+- pm4rcin/Hyprland COPR has Fedora 44 Awww and Waypaper builds
+- app.zen_browser.zen is published on Flathub
+
+Local checks:
+- VALIDATE_REPOSITORY.sh provides the same fast checks locally and in CI
+- INSTALL.sh passes bash syntax validation and an isolated HOME install
+- VERIFY_INSTALLATION.sh passes bash syntax validation
+- hyprland.lua passes Hyprland --verify-config
+- Ghostty configuration passes ghostty +validate-config
+- Waybar JSONC and SwayNC JSON parse successfully

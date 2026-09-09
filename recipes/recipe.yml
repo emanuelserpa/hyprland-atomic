@@ -1,0 +1,76 @@
+---
+# yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
+
+name: hyprland-atomic
+description: Emanuel's personal Atomic Hyprland desktop, based on Wayblue.
+
+base-image: ghcr.io/wayblueorg/hyprland
+image-version: latest
+
+modules:
+  - type: files
+    files:
+      - source: system
+        destination: /
+
+  - type: script
+    scripts:
+      - import-insync-key.sh
+
+  - type: dnf
+    repos:
+      copr:
+        - scottames/ghostty
+        - pm4rcin/Hyprland
+    install:
+      install-weak-deps: false
+      packages:
+        - ghostty
+        - awww
+        - waypaper
+        - nemo
+        - rofimoji
+        - swappy
+        - qt6ct
+        - kvantum
+        - copyq
+        - wob
+        - neovim
+        - zsh
+        - mpv
+        - yt-dlp
+        - htop
+        - glances
+        - screen
+        - google-noto-sans-fonts
+        - python3-requests
+        - zsh-autosuggestions
+        - zsh-syntax-highlighting
+        - easyeffects
+        - SwayNotificationCenter
+        - thinkfan
+        - scx_layered
+        - scx_rusty
+        - insync
+
+  - type: default-flatpaks
+    configurations:
+      - scope: user
+        repo:
+          title: Flathub (user)
+        install:
+          - app.zen_browser.zen
+
+  - type: fonts
+    fonts:
+      nerd-fonts:
+        - Noto
+
+  # This image targets Emanuel's ThinkPad T14 Gen 1 AMD. The files module
+  # installs its validated fan curve and thinkpad_acpi fan-control option.
+  - type: systemd
+    system:
+      enabled:
+        - thinkfan.service
+
+  - type: signing
