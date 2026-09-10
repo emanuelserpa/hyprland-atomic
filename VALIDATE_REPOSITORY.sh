@@ -16,6 +16,7 @@ required_files=(
   dotfiles/.config/waybar/config
   dotfiles/.config/swaync/config.json
   dotfiles/.config/zsh/.zshrc
+  dotfiles/.config/xdg-desktop-portal/hyprland-portals.conf
   dotfiles/.zshenv
   dotfiles/.local/bin/elecwhat
   dotfiles/.local/share/applications/elecwhat.desktop
@@ -51,6 +52,7 @@ fi
 
 python3 - <<'PY'
 import ast
+import configparser
 import json
 import re
 from pathlib import Path
@@ -63,6 +65,14 @@ json.loads(Path("dotfiles/.config/swaync/config.json").read_text(encoding="utf-8
 waybar = Path("dotfiles/.config/waybar/config").read_text(encoding="utf-8")
 waybar = re.sub(r"^\s*//.*$", "", waybar, flags=re.MULTILINE)
 json.loads(waybar)
+
+portal_config = configparser.ConfigParser()
+portal_config.read(
+    "dotfiles/.config/xdg-desktop-portal/hyprland-portals.conf",
+    encoding="utf-8",
+)
+if portal_config.get("preferred", "default") != "hyprland;gtk":
+    raise ValueError("Unexpected Hyprland portal fallback order")
 PY
 
 if command -v ruby >/dev/null 2>&1; then

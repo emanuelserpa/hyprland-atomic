@@ -15,6 +15,7 @@ Included configurations:
 - `waypaper`: wallpaper selector configured with the included default background
 - `wob`: on-screen volume and brightness bar
 - `zsh`: Fedora-adapted interactive shell configuration and native Git prompt
+- `xdg-desktop-portal`: Hyprland-specific portal routing with GTK fallback
 - `.local/share/backgrounds`: default generated desktop wallpaper
 - `.local/bin/elecwhat`: portable launcher for `~/AppImages/elecwhat.appimage`
 

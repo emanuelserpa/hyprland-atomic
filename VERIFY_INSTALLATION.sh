@@ -25,6 +25,7 @@ required_files=(
   "$HOME/.config/waypaper/config.ini"
   "$HOME/.config/wob/wob.ini"
   "$HOME/.config/zsh/.zshrc"
+  "$HOME/.config/xdg-desktop-portal/hyprland-portals.conf"
   "$HOME/.zshenv"
   "$HOME/.local/bin/hypr-screenshot"
   "$HOME/.local/bin/elecwhat"
