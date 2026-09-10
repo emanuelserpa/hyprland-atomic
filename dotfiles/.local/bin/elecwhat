@@ -9,4 +9,3 @@ fi
 
 export DESKTOPINTEGRATION=1
 exec "$appimage" --no-sandbox "$@"
-

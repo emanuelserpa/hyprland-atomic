@@ -46,4 +46,3 @@ export WGETRC="$XDG_CONFIG_HOME/wgetrc"
 export SQLITE_HISTORY="$XDG_STATE_HOME/sqlite/history"
 export _Z_DATA="$XDG_DATA_HOME/z"
 export XDG_SCREENSHOTS_DIR="${XDG_PICTURES_DIR:-$HOME/Pictures}/Screenshots"
-

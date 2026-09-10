@@ -30,4 +30,3 @@ zstyle ':completion:*:ssh:*' hosts off
 zstyle ':completion:*:(ssh|scp|rsync):*' group-order users hosts-domain hosts-host users hosts-ipaddr
 zstyle ':completion:*:(ssh|scp|rsync):*' format ' %F{yellow}-- %d --%f'
 zstyle ':completion:*:hosts' known-hosts-files "$HOME/.ssh/known_hosts"
-

@@ -53,4 +53,3 @@ PROMPT='%F{cyan}%n@%m%f %F{blue}%~%f ${vcs_info_msg_0_} %(?.%F{green}.%F{red})‚ù
 RPROMPT='%F{yellow}%*%f'
 
 [[ -r "$ZDOTDIR/.zshrc.local" ]] && source "$ZDOTDIR/.zshrc.local"
-
