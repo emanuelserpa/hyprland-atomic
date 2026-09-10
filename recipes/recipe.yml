@@ -21,7 +21,7 @@ modules:
     repos:
       copr:
         - scottames/ghostty
-        - pm4rcin/Hyprland
+        - lionheartp/Hyprland
     install:
       install-weak-deps: false
       packages:

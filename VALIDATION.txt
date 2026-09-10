@@ -12,7 +12,7 @@ Package names checked for Fedora 44 before packaging:
 - swappy
 - qt6ct
 - kvantum
-- pm4rcin/Hyprland COPR has Fedora 44 Awww and Waypaper builds
+- lionheartp/Hyprland COPR has active Fedora 44 chroots and Awww/Waypaper builds
 - app.zen_browser.zen is published on Flathub
 
 Local checks:
