@@ -32,6 +32,7 @@ required_files=(
   "$HOME/.local/share/backgrounds/hyprland-atomic.png"
   "/etc/thinkfan.conf"
   "/etc/modprobe.d/99-thinkfan.conf"
+  "/usr/libexec/hyprland-atomic-charge-limit"
 )
 
 for required_file in "${required_files[@]}"; do
@@ -53,6 +54,25 @@ fi
 
 if ! systemctl is-enabled --quiet thinkfan.service; then
   printf 'DISABLED service: thinkfan.service\n' >&2
+  missing=1
+fi
+
+if ! systemctl is-enabled --quiet hyprland-atomic-charge-limit.service; then
+  printf 'DISABLED service: hyprland-atomic-charge-limit.service\n' >&2
+  missing=1
+fi
+
+if [[ -r /sys/class/power_supply/BAT0/charge_control_start_threshold &&
+      -r /sys/class/power_supply/BAT0/charge_control_end_threshold ]]; then
+  charge_start="$(< /sys/class/power_supply/BAT0/charge_control_start_threshold)"
+  charge_end="$(< /sys/class/power_supply/BAT0/charge_control_end_threshold)"
+  if [[ "$charge_start" != 75 || "$charge_end" != 80 ]]; then
+    printf 'WRONG charge thresholds: %s-%s%% (expected 75-80%%)\n' \
+      "$charge_start" "$charge_end" >&2
+    missing=1
+  fi
+else
+  printf 'MISSING ThinkPad charge-threshold interface for BAT0\n' >&2
   missing=1
 fi
 

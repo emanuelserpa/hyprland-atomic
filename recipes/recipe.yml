@@ -73,5 +73,6 @@ modules:
     system:
       enabled:
         - thinkfan.service
+        - hyprland-atomic-charge-limit.service
 
   - type: signing

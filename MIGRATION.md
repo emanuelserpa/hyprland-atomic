@@ -43,6 +43,10 @@ The image installs the validated curve in `/etc/thinkfan.conf` and enables
 `thinkpad_acpi` fan control through `/etc/modprobe.d/99-thinkfan.conf`.
 Do not deploy this hardware-specific configuration unchanged to other models.
 
+Battery charge protection is independent from TuneD. A oneshot service writes
+the validated 75/80 thresholds through the kernel's `thinkpad_acpi` sysfs
+interface at boot. TuneD remains the only owner of runtime power policy.
+
 ## sched_ext
 
 v2 uses Fedora's packaged sched_ext schedulers instead of replacing the

@@ -36,11 +36,13 @@ this workstation/use case.
 - SwayNotificationCenter
 - Swappy screenshot editor
 - thinkfan with the validated ThinkPad T14 Gen 1 AMD fan curve
+- persistent ThinkPad battery protection (start at 75%, stop at 80%)
 - Fedora sched_ext schedulers: `scx_layered`, `scx_rusty`
 - Insync
 
 The image deliberately does not install TLP because Wayblue already ships
-`tuned-ppd`.
+`tuned-ppd`. Its standard `balanced`/`balanced-battery` mapping is retained;
+only battery charge protection is managed separately through `thinkpad_acpi`.
 
 ## What belongs outside the image
 

@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+battery="${1:-BAT0}"
+start_threshold="${START_CHARGE_THRESHOLD:-75}"
+end_threshold="${END_CHARGE_THRESHOLD:-80}"
+power_supply_root="${POWER_SUPPLY_ROOT:-/sys/class/power_supply}"
+sysfs_dir="$power_supply_root/$battery"
+start_file="$sysfs_dir/charge_control_start_threshold"
+end_file="$sysfs_dir/charge_control_end_threshold"
+
+if [[ ! -w "$start_file" || ! -w "$end_file" ]]; then
+  printf 'Charge thresholds are unavailable for %s\n' "$battery" >&2
+  exit 1
+fi
+
+if (( start_threshold < 0 || start_threshold > 99 ||
+      end_threshold < 1 || end_threshold > 100 ||
+      start_threshold >= end_threshold )); then
+  printf 'Invalid charge threshold range: %s-%s\n' \
+    "$start_threshold" "$end_threshold" >&2
+  exit 2
+fi
+
+# Set the lower value first: firmware may reject an end threshold below the
+# currently configured start threshold.
+printf '%s\n' "$start_threshold" > "$start_file"
+printf '%s\n' "$end_threshold" > "$end_file"
+
+printf 'Charge protection enabled for %s: %s-%s%%\n' \
+  "$battery" "$start_threshold" "$end_threshold"

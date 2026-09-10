@@ -11,6 +11,8 @@ required_files=(
   files/system/etc/thinkfan.conf
   files/system/etc/modprobe.d/99-thinkfan.conf
   files/system/etc/yum.repos.d/insync.repo
+  files/system/usr/lib/systemd/system/hyprland-atomic-charge-limit.service
+  files/system/usr/libexec/hyprland-atomic-charge-limit
   dotfiles/.config/hypr/hyprland.lua
   dotfiles/.config/ghostty/config
   dotfiles/.config/waybar/config
@@ -35,6 +37,7 @@ shell_scripts=(
   VERIFY_INSTALLATION.sh
   APPLY_TO_EXISTING_REPO.sh
   files/scripts/import-insync-key.sh
+  files/system/usr/libexec/hyprland-atomic-charge-limit
   dotfiles/.config/waybar/scripts/flatpak-updates.sh
   dotfiles/.config/waybar/scripts/mpris-safe.sh
   dotfiles/.local/bin/hypr-screenshot
