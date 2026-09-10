@@ -15,6 +15,10 @@ required_files=(
   dotfiles/.config/ghostty/config
   dotfiles/.config/waybar/config
   dotfiles/.config/swaync/config.json
+  dotfiles/.config/zsh/.zshrc
+  dotfiles/.zshenv
+  dotfiles/.local/bin/elecwhat
+  dotfiles/.local/share/applications/elecwhat.desktop
   dotfiles/.local/share/backgrounds/hyprland-atomic.png
 )
 
@@ -33,8 +37,17 @@ shell_scripts=(
   dotfiles/.config/waybar/scripts/flatpak-updates.sh
   dotfiles/.config/waybar/scripts/mpris-safe.sh
   dotfiles/.local/bin/hypr-screenshot
+  dotfiles/.local/bin/elecwhat
 )
 bash -n "${shell_scripts[@]}"
+
+if command -v zsh >/dev/null 2>&1; then
+  zsh -n dotfiles/.zshenv dotfiles/.config/zsh/.zshenv \
+    dotfiles/.config/zsh/.zprofile dotfiles/.config/zsh/.zshrc \
+    dotfiles/.config/zsh/.zshrc.local
+else
+  printf 'SKIP Zsh validation: zsh is not installed.\n' >&2
+fi
 
 python3 - <<'PY'
 import ast

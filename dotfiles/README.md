@@ -14,7 +14,9 @@ Included configurations:
 - `ghostty`: terminal configuration
 - `waypaper`: wallpaper selector configured with the included default background
 - `wob`: on-screen volume and brightness bar
+- `zsh`: Fedora-adapted interactive shell configuration and native Git prompt
 - `.local/share/backgrounds`: default generated desktop wallpaper
+- `.local/bin/elecwhat`: portable launcher for `~/AppImages/elecwhat.appimage`
 
 Install them for the current user with the repository installer. It creates a
 timestamped backup under `~/.local/state/hyprland-atomic/backups/` before it
@@ -23,6 +25,10 @@ copies anything.
 ```bash
 ./INSTALL.sh
 ```
+
+The ElecWhat binary is intentionally not versioned. Put the executable
+AppImage at `~/AppImages/elecwhat.appimage`; the installer provides its
+launcher and desktop entry.
 
 The repository intentionally excludes old configurations, backup files, TLP
 helpers, and prebuilt binaries. Wayblue provides `tuned-ppd`, so the active

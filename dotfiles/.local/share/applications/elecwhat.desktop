@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Name=ElecWhat
+GenericName=WhatsApp Client
+Comment=WhatsApp desktop client (AppImage)
+Icon=internet-chat
+TryExec=elecwhat
+Exec=elecwhat %U
+Terminal=false
+MimeType=x-scheme-handler/whatsapp;
+Categories=Network;Chat;InstantMessaging;
+StartupWMClass=elecwhat
+

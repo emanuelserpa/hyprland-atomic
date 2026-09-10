@@ -5,7 +5,7 @@ missing=0
 required_commands=(
   Hyprland awww-daemon brightnessctl copyq easyeffects flatpak ghostty grim
   hyprctl hypridle hyprlock nemo nm-applet playerctl rofimoji slurp swappy
-  swaync-client waybar waypaper wl-copy wl-paste wob wofi wpctl
+  swaync-client trash-put waybar waypaper wl-copy wl-paste wob wofi wpctl
 )
 
 for command_name in "${required_commands[@]}"; do
@@ -24,7 +24,10 @@ required_files=(
   "$HOME/.config/ghostty/config"
   "$HOME/.config/waypaper/config.ini"
   "$HOME/.config/wob/wob.ini"
+  "$HOME/.config/zsh/.zshrc"
+  "$HOME/.zshenv"
   "$HOME/.local/bin/hypr-screenshot"
+  "$HOME/.local/bin/elecwhat"
   "$HOME/.local/share/backgrounds/hyprland-atomic.png"
   "/etc/thinkfan.conf"
   "/etc/modprobe.d/99-thinkfan.conf"
@@ -36,6 +39,11 @@ for required_file in "${required_files[@]}"; do
     missing=1
   fi
 done
+
+if [[ ! -x "$HOME/AppImages/elecwhat.appimage" ]]; then
+  printf 'PENDING AppImage: %s\n' "$HOME/AppImages/elecwhat.appimage" >&2
+  missing=1
+fi
 
 if ! flatpak info app.zen_browser.zen >/dev/null 2>&1; then
   printf 'PENDING Flatpak: app.zen_browser.zen (run bluebuild-flatpak-manager)\n' >&2

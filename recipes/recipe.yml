@@ -46,6 +46,7 @@ modules:
         - python3-requests
         - zsh-autosuggestions
         - zsh-syntax-highlighting
+        - trash-cli
         - easyeffects
         - SwayNotificationCenter
         - thinkfan

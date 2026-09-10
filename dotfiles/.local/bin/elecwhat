@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+appimage="${ELECWHAT_APPIMAGE:-$HOME/AppImages/elecwhat.appimage}"
+if [[ ! -x "$appimage" ]]; then
+  printf 'ElecWhat AppImage not found or not executable: %s\n' "$appimage" >&2
+  exit 1
+fi
+
+export DESKTOPINTEGRATION=1
+exec "$appimage" --no-sandbox "$@"
+

@@ -1,0 +1,33 @@
+# Commands adapted from the former Arch configuration.
+alias wget='wget --hsts-file="$XDG_DATA_HOME/wget-hsts"'
+alias adb='HOME="$ANDROID_USER_HOME" adb'
+alias svn='svn --config-dir "$XDG_CONFIG_HOME/subversion"'
+alias cp='cp -i'
+alias mv='mv -i'
+
+if (( $+commands[trash-put] )); then
+  alias rm='trash-put'
+fi
+
+# Open lf and return to its last directory without an external lfrun script.
+lfcd() {
+  if (( ! $+commands[lf] )); then
+    print -u2 'lf is not installed'
+    return 127
+  fi
+  local last_dir
+  last_dir="$(mktemp)" || return
+  command lf -last-dir-path="$last_dir" "$@"
+  if [[ -r "$last_dir" ]]; then
+    local dir="$(<"$last_dir")"
+    [[ -d "$dir" && "$dir" != "$PWD" ]] && builtin cd -- "$dir"
+  fi
+  command rm -f -- "$last_dir"
+}
+alias lf='lfcd'
+
+zstyle ':completion:*:ssh:*' hosts off
+zstyle ':completion:*:(ssh|scp|rsync):*' group-order users hosts-domain hosts-host users hosts-ipaddr
+zstyle ':completion:*:(ssh|scp|rsync):*' format ' %F{yellow}-- %d --%f'
+zstyle ':completion:*:hosts' known-hosts-files "$HOME/.ssh/known_hosts"
+
