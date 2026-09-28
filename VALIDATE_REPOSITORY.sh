@@ -15,8 +15,11 @@ required_files=(
   files/system/usr/libexec/hyprland-atomic-charge-limit
   dotfiles/.config/hypr/hyprland.lua
   dotfiles/.config/ghostty/config
-  dotfiles/.config/waybar/config
-  dotfiles/.config/swaync/config.json
+  dotfiles/.config/kitty/kitty.conf
+  dotfiles/.config/quickshell/shell.qml
+  dotfiles/.config/quickshell/Theme.qml
+  dotfiles/.config/quickshell/scripts/validate.sh
+  dotfiles/.config/systemd/user/quickshell.service
   dotfiles/.config/zsh/.zshrc
   dotfiles/.config/xdg-desktop-portal/hyprland-portals.conf
   dotfiles/.zshenv
@@ -38,8 +41,7 @@ shell_scripts=(
   APPLY_TO_EXISTING_REPO.sh
   files/scripts/import-insync-key.sh
   files/system/usr/libexec/hyprland-atomic-charge-limit
-  dotfiles/.config/waybar/scripts/flatpak-updates.sh
-  dotfiles/.config/waybar/scripts/mpris-safe.sh
+  dotfiles/.config/quickshell/scripts/validate.sh
   dotfiles/.local/bin/hypr-screenshot
   dotfiles/.local/bin/elecwhat
 )
@@ -47,8 +49,9 @@ bash -n "${shell_scripts[@]}"
 
 if command -v zsh >/dev/null 2>&1; then
   zsh -n dotfiles/.zshenv dotfiles/.config/zsh/.zshenv \
-    dotfiles/.config/zsh/.zprofile dotfiles/.config/zsh/.zshrc \
+  dotfiles/.config/zsh/.zprofile dotfiles/.config/zsh/.zshrc \
     dotfiles/.config/zsh/.zshrc.local
+  zsh -n dotfiles/.config/zsh/conf.d/*.zsh
 else
   printf 'SKIP Zsh validation: zsh is not installed.\n' >&2
 fi
@@ -56,18 +59,10 @@ fi
 python3 - <<'PY'
 import ast
 import configparser
-import json
-import re
 from pathlib import Path
 
-python_file = Path("dotfiles/.config/waybar/scripts/waybar-wttr.py")
-ast.parse(python_file.read_text(encoding="utf-8"), filename=str(python_file))
-
-json.loads(Path("dotfiles/.config/swaync/config.json").read_text(encoding="utf-8"))
-
-waybar = Path("dotfiles/.config/waybar/config").read_text(encoding="utf-8")
-waybar = re.sub(r"^\s*//.*$", "", waybar, flags=re.MULTILINE)
-json.loads(waybar)
+for python_file in Path("dotfiles/.config/quickshell/scripts").rglob("*.py"):
+    ast.parse(python_file.read_text(encoding="utf-8"), filename=str(python_file))
 
 portal_config = configparser.ConfigParser()
 portal_config.read(
@@ -96,6 +91,12 @@ if command -v ghostty >/dev/null 2>&1; then
     --config-file="$project_dir/dotfiles/.config/ghostty/config"
 else
   printf 'SKIP Ghostty validation: Ghostty is not installed.\n' >&2
+fi
+
+if command -v quickshell >/dev/null 2>&1; then
+  (cd dotfiles/.config/quickshell && ./scripts/validate.sh)
+else
+  printf 'SKIP QuickShell validation: quickshell is not installed.\n' >&2
 fi
 
 printf 'Repository validation passed.\n'

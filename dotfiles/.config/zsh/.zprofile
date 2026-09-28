@@ -1,1 +1,2 @@
-# Login-shell customizations belong here. UWSM starts the graphical session.
+# If running from tty1 start sway
+#[ "$(tty)" = "/dev/tty1" ] && exec sway

@@ -7,7 +7,7 @@ show=drun,run
 prompt=Apps
 normal_window=false
 #layer=top
-term=ghostty
+term=kitty
 dynamic_lines=true
 
 ## Geometry
@@ -41,4 +41,3 @@ filter_rate=100
 ## Keys
 key_expand=Tab
 key_exit=Escape
-

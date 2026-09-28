@@ -3,9 +3,9 @@ set -euo pipefail
 
 missing=0
 required_commands=(
-  Hyprland awww-daemon brightnessctl copyq easyeffects flatpak ghostty grim
+  Hyprland awww-daemon brightnessctl easyeffects flatpak grim kitty quickshell
   hyprctl hypridle hyprlock nemo nm-applet playerctl rofimoji slurp swappy
-  swaync-client trash-put waybar waypaper wl-copy wl-paste wob wofi wpctl
+  trash-put waypaper wl-copy wl-paste wofi wpctl
 )
 
 for command_name in "${required_commands[@]}"; do
@@ -17,13 +17,12 @@ done
 
 required_files=(
   "$HOME/.config/hypr/hyprland.lua"
-  "$HOME/.config/waybar/config"
-  "$HOME/.config/swaync/config.json"
+  "$HOME/.config/quickshell/shell.qml"
+  "$HOME/.config/kitty/kitty.conf"
   "$HOME/.config/wofi/config"
   "$HOME/.config/uwsm/env"
-  "$HOME/.config/ghostty/config"
+  "$HOME/.config/systemd/user/quickshell.service"
   "$HOME/.config/waypaper/config.ini"
-  "$HOME/.config/wob/wob.ini"
   "$HOME/.config/zsh/.zshrc"
   "$HOME/.config/xdg-desktop-portal/hyprland-portals.conf"
   "$HOME/.zshenv"
@@ -77,7 +76,12 @@ else
 fi
 
 Hyprland --verify-config -c "$HOME/.config/hypr/hyprland.lua"
-ghostty +validate-config --config-file="$HOME/.config/ghostty/config"
+quickshell --version >/dev/null
+
+if ! systemctl --user is-enabled --quiet quickshell.service; then
+  printf 'DISABLED user service: quickshell.service\n' >&2
+  missing=1
+fi
 
 if ! fc-match 'NotoSansM Nerd Font Mono' | grep -qi 'NotoSansM'; then
   printf 'MISSING font: NotoSansM Nerd Font Mono\n' >&2
