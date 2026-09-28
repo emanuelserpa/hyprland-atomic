@@ -106,7 +106,7 @@ Recommended:
 - `wl-clipboard` (`wl-paste`, `wl-copy`) for native clipboard capture and restore
 
 Without `fd`, file search falls back to common user directories.
-Clipboard mode uses a persistent native Wayland daemon with local SQLite storage (see `docs/clipboard.md`).
+Clipboard mode uses a persistent native Wayland daemon with local SQLite storage.
 
 ## Historical Hyprland shortcut example
 
