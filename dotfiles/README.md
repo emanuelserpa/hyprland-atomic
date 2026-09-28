@@ -8,7 +8,7 @@ Included configurations:
 
 - `hypr`: current Hyprland Lua configuration, Hypridle, Hyprlock, and shader
 - `quickshell`: current shell, bar, notifications, OSD, launcher, services,
-  helper scripts, documentation, and tests
+  helper scripts, and tests
 - `systemd/user/quickshell.service`: starts QuickShell with the graphical session
 - `kitty/kitty.conf` and `ghostty/config`: both terminal configurations
 - `wofi`: selector used by Rofimoji
@@ -35,8 +35,7 @@ launcher and desktop entry.
 The installer also enables `quickshell.service` in the user systemd session.
 Log out and back in after installing so the graphical-session target starts it.
 
-The retired Waybar and SwayNC configurations remain in `legacy/` for reference
-and are not installed. Quickshell provides the active bar and notifications.
-The repository excludes shell history, secrets, and prebuilt application
-binaries. Wayblue provides `tuned-ppd`, so the active desktop configuration
-must not start or control TLP.
+The retired Waybar, SwayNC, and Wob configurations are not included.
+Quickshell provides the active bar and notifications. The repository excludes
+shell history, secrets, and prebuilt application binaries. Wayblue provides
+`tuned-ppd`, so the active desktop configuration must not start or control TLP.

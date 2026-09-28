@@ -32,8 +32,8 @@ daily use on Arch Linux (Hyprland, UWSM session).
 Quickshell 0.3.x, Hyprland or labwc, PipeWire, `wl-clipboard`, Python 3
 (`requests`, `Pillow`), Noto Sans / Nerd Fonts, Kitty. Ghostty is optional and
 only enables its theme adapter.
-Máquina nova? `docs/hyprland-install.md` ou `docs/labwc-install.md`
-(lista de pacotes, fixes de `/etc`, primeiro login).
+For a new machine, see the requirements above and use the upstream Quickshell
+installation instructions.
 
 Per-feature helpers: `nmcli`, `bluetoothctl`, `checkupdates`
 (`pacman-contrib`), `curl`, `fd`, `brightnessctl`, `upower`,
@@ -87,13 +87,10 @@ shell.qml
 ├── services/       # Shared singletons (Theme, Media, Notifications, …)
 ├── components/     # Shared visuals (Pill, PopupCard, …)
 ├── scripts/        # Python/shell backends (JSON contracts)
-└── docs/           # Architecture, domains, contracts
+└── tests/          # Python unit tests
 ```
-
-Start with `AGENTS.md`, then `docs/current-state.md`,
-`docs/architecture.md`, and `docs/stability-contract.md`.
 
 ## History
 
-See `CHANGELOG.md` and `docs/version-history.md` for the staged evolution
-(Waybar migration → Control Center → native clipboard → current shell).
+See `CHANGELOG.md` for the shell's evolution (Waybar migration → Control Center
+→ native clipboard → current shell).

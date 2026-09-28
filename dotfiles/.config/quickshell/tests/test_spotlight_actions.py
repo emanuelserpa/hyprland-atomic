@@ -10,7 +10,7 @@ sys.dont_write_bytecode = True
 
 CATALOG = Path(__file__).resolve().parents[1] / "launcher" / "SpotlightActionCatalog.qml"
 
-# Tabela do plano (docs/spotlight-raycast-plan.md): kind -> id da primária.
+# Contrato de ações: tipo de resultado -> ID da ação primária.
 EXPECTED_PRIMARY = {
     "app": "open",
     "file": "open",

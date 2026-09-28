@@ -56,9 +56,9 @@ Personal files such as:
 ```
 
 are versioned under `dotfiles/.config/` rather than baked into `/etc/skel`.
-The previous Waybar and SwayNC configuration is retained under
-`dotfiles/legacy/` for reference; the current session uses Quickshell for its
-bar and notifications. See `dotfiles/README.md` for included files and setup.
+The current session uses Quickshell for its bar and notifications; retired
+Waybar, SwayNC, and Wob configurations are not included. See `dotfiles/README.md`
+for included files and setup.
 
 This also means changing QuickShell or a Hyprland keybind does not require
 rebuilding the operating system. The image remains Fedora Atomic/Wayblue;
