@@ -25,15 +25,14 @@ this workstation/use case.
 
 ## Added by this image
 
-- Ghostty
+- QuickShell (bar, notifications, OSD, clipboard and Spotlight launcher)
+- Kitty
 - Zen Browser (user Flatpak)
 - Nemo, Wofi and Rofimoji
 - Waypaper + Awww
 - Neovim + Zsh helpers
 - mpv / yt-dlp
-- CopyQ + wob
 - EasyEffects
-- SwayNotificationCenter
 - Swappy screenshot editor
 - thinkfan with the validated ThinkPad T14 Gen 1 AMD fan curve
 - persistent ThinkPad battery protection (start at 75%, stop at 80%)
@@ -50,17 +49,21 @@ Personal files such as:
 
 ```text
 ~/.config/hypr/
-~/.config/waybar/
-~/.config/swaync/
+~/.config/quickshell/
+~/.config/kitty/
 ~/.config/ghostty/
 ~/.config/zsh/
 ```
 
 are versioned under `dotfiles/.config/` rather than baked into `/etc/skel`.
-See `dotfiles/README.md` for the included files and installation instructions.
+The previous Waybar and SwayNC configuration is retained under
+`dotfiles/legacy/` for reference; the current session uses Quickshell for its
+bar and notifications. See `dotfiles/README.md` for included files and setup.
 
-This also means changing Waybar CSS or a Hyprland keybind does not require
-rebuilding the operating system.
+This also means changing QuickShell or a Hyprland keybind does not require
+rebuilding the operating system. The image remains Fedora Atomic/Wayblue;
+the user dotfiles track the current desktop setup and include Arch-specific
+update integrations where applicable.
 
 ## Build
 
@@ -80,8 +83,8 @@ Before opening a pull request, run the repository checks locally:
 ```
 
 The command always checks the repository structure and the Bash, Python,
-JSON/JSONC and YAML syntax. When Hyprland and Ghostty are installed, it also
-validates their configuration with the applications themselves.
+JSON/JSONC and YAML syntax. It also validates Hyprland and Quickshell when
+installed; Ghostty validation is optional because the image does not include it.
 
 ## Image
 

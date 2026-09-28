@@ -22,21 +22,42 @@ hl.monitor({
     mode = "1920x1080@60.05",
     position = "0x0",
     scale = 1.2,
+    bitdepth = 8,
+    icc = HOME .. "/.local/share/color/icc/B140HAN04.0.icm",
+
 })
 
 --------------------
 ---- PROGRAMAS -----
 --------------------
 
-local browser = "flatpak run app.zen_browser.zen"
-local terminal = "ghostty"
+local browser = "zen-browser"
+local terminal = "kitty"
 local fileManager = "nemo"
-local copyq = "copyq toggle"
-local menu = "wofi --show drun"
 
 ---------------------
 ---- CONFIG BASE ----
 ---------------------
+
+-- Tema dinâmico sincronizado via Quickshell Theme Manager
+local theme_cache = (os.getenv("XDG_CACHE_HOME") or (HOME .. "/.cache")) .. "/hypr/theme.lua"
+local theme_colors = {
+    active_border = "rgba(ff80bfaa)",
+    inactive_border = "rgba(ffffff20)",
+    group_border_active = "rgba(ff80bfaa)",
+    group_border_inactive = "rgba(ffffff20)",
+    groupbar_active = "rgba(68479daa)",
+    groupbar_inactive = "rgba(282a36aa)",
+}
+local ok_theme, custom_theme = pcall(dofile, theme_cache)
+if ok_theme and type(custom_theme) == "table" then
+    if custom_theme.active_border then theme_colors.active_border = custom_theme.active_border end
+    if custom_theme.inactive_border then theme_colors.inactive_border = custom_theme.inactive_border end
+    if custom_theme.group_border_active then theme_colors.group_border_active = custom_theme.group_border_active end
+    if custom_theme.group_border_inactive then theme_colors.group_border_inactive = custom_theme.group_border_inactive end
+    if custom_theme.groupbar_active then theme_colors.groupbar_active = custom_theme.groupbar_active end
+    if custom_theme.groupbar_inactive then theme_colors.groupbar_inactive = custom_theme.groupbar_inactive end
+end
 
 hl.config({
     input = {
@@ -84,10 +105,10 @@ hl.config({
 
         col = {
             active_border = {
-                colors = { "rgba(ff80bfaa)" },
+                colors = { theme_colors.active_border },
                 angle = 45,
             },
-            inactive_border = "rgba(282a36aa)",
+            inactive_border = theme_colors.inactive_border,
         },
 
         layout = "dwindle",
@@ -99,24 +120,53 @@ hl.config({
 
         blur = {
             enabled = true,
-            size = 3,
-            passes = 1,
+            size = 10,
+            passes = 3,
             new_optimizations = true,
             ignore_opacity = true,
+            noise = 0.015,
+            contrast = 1.05,
+            brightness = 0.95,
+            vibrancy = 0.25,
+            vibrancy_darkness = 0.1,
+            popups = true,
+            popups_ignorealpha = 0.2,
         },
 
-        screen_shader = HOME .. "/.config/hypr/shaders/vibrance2.glsl",
+    --    screen_shader = HOME .. "/.config/hypr/shaders/vibrance2.glsl",
     },
 
     group = {
+        col = {
+            border_active = {
+                colors = { theme_colors.group_border_active },
+                angle = 45,
+            },
+            border_inactive = theme_colors.group_border_inactive,
+            border_locked_active = {
+                colors = { theme_colors.group_border_active },
+                angle = 45,
+            },
+            border_locked_inactive = theme_colors.group_border_inactive,
+        },
+
         groupbar = {
-            height = 16,
-            font_size = 11,
+            enabled = true,
+            blur = true,
+            height = 18,
+            indicator_height = 0,
+            indicator_gap = 0,
+            render_titles = true,
+            font_family = "Noto Sans Nerd Font",
+            font_size = 10,
             text_color = 0xffffffff,
+            text_color_inactive = 0xcca6adc8,
 
             col = {
-                active = "rgba(68479daa)",
-                inactive = "rgba(282a36ee)",
+                active = theme_colors.groupbar_active,
+                inactive = theme_colors.groupbar_inactive,
+                locked_active = theme_colors.groupbar_active,
+                locked_inactive = theme_colors.groupbar_inactive,
             },
 
             gradients = true,
@@ -124,8 +174,13 @@ hl.config({
             gaps_out = 0,
             keep_upper_gap = false,
 
-            gradient_rounding = 0,
+            rounding = 4,
+            round_only_edges = false,
+            gradient_rounding = 4,
             gradient_round_only_edges = false,
+
+            scrolling = true,
+            middle_click_close = true,
         },
     },
 
@@ -225,6 +280,33 @@ hl.animation({
     style = "slidefadevert",
 })
 
+--------------------------
+---- DYNAMIC CURSORS -----
+--------------------------
+
+-- O plugin atual usa plugin.dynamic_cursors (underscore).
+-- O próprio plugin recomenda guardar a configuração atrás deste teste.
+if hl.plugin.dynamic_cursors then
+    hl.config({
+        plugin = {
+            dynamic_cursors = {
+                enabled = true,
+
+                -- Você usava apenas o "shake to find".
+                mode = "none",
+
+                shake = {
+                    enabled = true,
+                    threshold = 6.0,
+
+                    -- Migração semântica do antigo base_multiplier = 2.5.
+                    base = 2.5,
+                },
+            },
+        },
+    })
+end
+
 ----------------------
 ---- WINDOW RULES ----
 ----------------------
@@ -233,17 +315,26 @@ hl.animation({
 -- FLOATS ESPECIAIS
 -- ============================================================
 
--- CopyQ: janela utilitária, sempre floating.
+-- Fila de impressão do Quickshell: janela utilitária centralizada.
 hl.window_rule({
-    name = "copyq-float",
+    name = "quickshell-printer-queue-float",
     match = {
-        class = [[^(com\.github\.hluk\.copyq)$]],
+        class = [[^(org\.quickshell)$]],
+        title = [[^(Fila de impressão)$]],
     },
     float = true,
-    size = { 675, 710 },
-    group = "deny",
-    stay_focused = true,
-    dim_around = true,
+    center = true,
+    size = { 700, 500 },
+})
+
+-- OTPClient (flatpak): flutuante e centralizado.
+hl.window_rule({
+    name = "otpclient-float",
+    match = {
+        class = [[^(otpclient)$]],
+    },
+    float = true,
+    center = true,
 })
 
 
@@ -259,18 +350,18 @@ hl.window_rule({
 })
 
 
--- Ghostty quake / scratchpad.
+-- Kitty quake / scratchpad.
 hl.window_rule({
     name = "quake-terminal",
     match = {
-        title = [[^(ghostty-quake)$]],
+        title = [[^(kitty-quake)$]],
     },
     workspace = "special:scratchpad silent",
     float = true,
-    no_blur = true,
+    no_blur = false,
     center = true,
     size = { 1000, 500 },
-    rounding = 0,
+    rounding = 10,
     border_size = 1,
 })
 
@@ -535,6 +626,7 @@ hl.window_rule({
         class = [[^(spotify)$]],
     },
     workspace = "4 silent",
+    render_unfocused = true,
 })
 
 -- Qalculate!
@@ -611,6 +703,20 @@ hl.window_rule({
     suppress_event = "maximize fullscreen",
 })
 
+---------------------
+---- LAYER RULES ----
+---------------------
+
+hl.layer_rule({
+    name = "quickshell-blur",
+    match = {
+        namespace = [[^(quickshell.*)$]],
+    },
+    blur = true,
+    blur_popups = true,
+    ignore_alpha = 0.2,
+})
+
 ----------------
 ---- BINDS -----
 ----------------
@@ -621,9 +727,20 @@ local mainMod = "SUPER"
 hl.bind(mainMod .. " + Q", hl.dsp.exec_cmd(browser))
 hl.bind(mainMod .. " + T", hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + SHIFT + Q", hl.dsp.window.close())
-hl.bind(mainMod .. " + C", hl.dsp.exec_cmd(copyq))
-hl.bind(mainMod .. " + CTRL + R", hl.dsp.exec_cmd("killall -SIGUSR2 waybar"))
-hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exec_cmd("rofimoji --selector wofi"))
+hl.bind(mainMod .. " + V", hl.dsp.global("quickshell:spotlight-clipboard"))
+hl.bind(mainMod .. " + C", hl.dsp.global("quickshell:spotlight-clipboard"))
+hl.bind(mainMod .. " + SHIFT + C", hl.dsp.exec_cmd("~/.config/quickshell/scripts/scan-qr.sh"))
+hl.bind(mainMod .. " + SHIFT + E", hl.dsp.global("quickshell:spotlight-emoji"))
+hl.bind(
+    mainMod .. " + A",
+    hl.dsp.global("quickshell:spotlight-actions")
+)
+hl.bind(
+    mainMod .. " + Tab",
+    hl.dsp.global("quickshell:spotlight-windows"),
+    { description = "Alternador de janelas via Quickshell Spotlight" }
+)
+
 
 -- Com UWSM, encerra a sessão de forma ordenada.
 hl.bind(mainMod .. " + SHIFT + BackSpace", hl.dsp.exec_cmd("uwsm stop"))
@@ -681,7 +798,7 @@ hl.bind(
     { description = "Toggle floating 90% centered" }
 )
 
-hl.bind(mainMod .. " + D", hl.dsp.exec_cmd(menu))
+hl.bind(mainMod .. " + D", hl.dsp.global("quickshell:spotlight"))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen())
 hl.bind(mainMod .. " + Tab", hl.dsp.group.next())
@@ -772,14 +889,15 @@ hl.bind(
 
 -- Evita empilhar uma segunda instância do hyprlock.
 hl.bind(
-    mainMod .. " + SHIFT + L",
-    hl.dsp.exec_cmd("playerctl -a pause; pidof hyprlock >/dev/null || hyprlock")
+    mainMod .. " + L",
+    hl.dsp.exec_cmd("playerctl -a pause; pidof hyprlock >/dev/null || hyprlock"),
+    { description = "Bloquear a tela" }
 )
 
-hl.bind( mainMod .. " + N", hl.dsp.exec_cmd("swaync-client -t -sw"))
+hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("quickshell ipc call notifications toggle"))
 
 -- Toggle inteligente do terminal Quake / Scratchpad.
--- Se o ghostty-quake não estiver em execução, inicia uma nova instância.
+-- Se o kitty-quake não estiver em execução, inicia uma nova instância.
 -- Se já estiver rodando, apenas alterna a visibilidade sem criar processos duplicados.
 local function toggleQuake()
     local windows = hl.get_windows()
@@ -787,7 +905,7 @@ local function toggleQuake()
 
     if windows ~= nil then
         for _, window in ipairs(windows) do
-            if window.title == "ghostty-quake" then
+            if window.title == "kitty-quake" then
                 exists = true
                 break
             end
@@ -795,7 +913,7 @@ local function toggleQuake()
     end
 
     if not exists then
-        hl.exec_cmd([[ghostty --title="ghostty-quake"]])
+        hl.exec_cmd([[kitty --title="kitty-quake"]])
     end
 
     hl.dispatch(hl.dsp.workspace.toggle_special("scratchpad"))
@@ -803,227 +921,23 @@ end
 
 hl.bind(mainMod .. " + Escape", toggleQuake, { description = "Toggle Quake terminal" })
 hl.bind(mainMod .. " + code:49", toggleQuake, { description = "Toggle Quake terminal" })
--- Kill App integrado ao Lua.
---
--- Consulta o Hyprland nativamente com hl.get_windows(). Wofi e a busca de
--- ícones rodam fora do callback via hl.exec_cmd(), para não bloquear o
--- event loop do compositor.
-local function shellQuote(value)
-    local text = tostring(value or "")
-    return "'" .. text:gsub("'", "'\"'\"'") .. "'"
-end
-
-local function sanitizeMenuText(value)
-    return tostring(value or "")
-        :gsub("[\r\n\t]", " ")
-        :gsub("%s%s+", " ")
-end
-
-local function killApp()
-    local windows = hl.get_windows()
-
-    if windows == nil or #windows == 0 then
-        return
-    end
-
-    local pids = {}
-    local classes = {}
-    local titles = {}
-
-    for _, window in ipairs(windows) do
-        local pid = tonumber(window.pid)
-
-        if pid ~= nil and pid > 0 then
-            pids[#pids + 1] = shellQuote(math.floor(pid))
-            classes[#classes + 1] = shellQuote(
-                sanitizeMenuText(window.class or "unknown")
-            )
-            titles[#titles + 1] = shellQuote(
-                sanitizeMenuText(window.title or "")
-            )
-        end
-    end
-
-    if #pids == 0 then
-        return
-    end
-
-    local script =
-        "pids=(" .. table.concat(pids, " ") .. ")\n" ..
-        "classes=(" .. table.concat(classes, " ") .. ")\n" ..
-        "titles=(" .. table.concat(titles, " ") .. ")\n" ..
-        [=[
-set -u
-
-CURRENT_THEME="hicolor"
-settings="$HOME/.config/gtk-3.0/settings.ini"
-
-if [[ -r "$settings" ]]; then
-    while IFS='=' read -r key value; do
-        key="${key//[[:space:]]/}"
-
-        if [[ "$key" == "gtk-icon-theme-name" ]]; then
-            value="${value//[[:space:]]/}"
-            [[ -n "$value" ]] && CURRENT_THEME="$value"
-            break
-        fi
-    done < "$settings"
-fi
-
-declare -A MAN_FIXES=(
-    ["smartcode-stremio"]="com.stremio.Stremio"
-    ["com.stremio.stremio"]="com.stremio.Stremio"
-    ["Stremio"]="com.stremio.Stremio"
-    ["com.github.rafostar.Clapper"]="com.github.rafostar.Clapper"
-)
-
-declare -A ICON_CACHE=()
-
-find_icon() {
-    local class="$1"
-
-    if [[ -n "${ICON_CACHE[$class]+present}" ]]; then
-        printf '%s' "${ICON_CACHE[$class]}"
-        return
-    fi
-
-    local names=("$class" "${class,,}")
-
-    if [[ -n "${MAN_FIXES[$class]+present}" ]]; then
-        names+=("${MAN_FIXES[$class]}")
-    fi
-
-    if [[ "$class" == *.* ]]; then
-        local dotted="${class##*.}"
-        names+=("${dotted,,}")
-    fi
-
-    if [[ "$class" == *-* ]]; then
-        local dashed="${class##*-}"
-        names+=("${dashed,,}")
-    fi
-
-    local paths=(
-        "$HOME/.local/share/icons/$CURRENT_THEME"
-        "/usr/share/icons/$CURRENT_THEME"
-        "$HOME/.local/share/icons/hicolor"
-        "/usr/share/icons/hicolor"
-        "$HOME/.local/share/flatpak/exports/share/icons/hicolor"
-        "/var/lib/flatpak/exports/share/icons/hicolor"
-        "/usr/share/pixmaps"
-    )
-
-    local sizes=(
-        "48x48/apps"
-        "scalable/apps"
-        "apps"
-        "256x256/apps"
-        "128x128/apps"
-    )
-
-    local path name size candidate found
-
-    for path in "${paths[@]}"; do
-        [[ -d "$path" ]] || continue
-
-        for name in "${names[@]}"; do
-            for size in "${sizes[@]}"; do
-                candidate="$path/$size/$name.svg"
-                if [[ -f "$candidate" ]]; then
-                    ICON_CACHE[$class]="$candidate"
-                    printf '%s' "$candidate"
-                    return
-                fi
-
-                candidate="$path/$size/$name.png"
-                if [[ -f "$candidate" ]]; then
-                    ICON_CACHE[$class]="$candidate"
-                    printf '%s' "$candidate"
-                    return
-                fi
-            done
-        done
-    done
-
-    for path in "${paths[@]}"; do
-        [[ -d "$path" ]] || continue
-
-        for name in "${names[@]}"; do
-            found="$(
-                find "$path" -maxdepth 4 \
-                    \( -iname "$name.svg" -o -iname "$name.png" \) \
-                    -print -quit 2>/dev/null
-            )"
-
-            if [[ -n "$found" ]]; then
-                ICON_CACHE[$class]="$found"
-                printf '%s' "$found"
-                return
-            fi
-        done
-    done
-
-    ICON_CACHE[$class]=""
-}
-
-window_list=""
-
-for ((i = 0; i < ${#pids[@]}; i++)); do
-    pid="${pids[$i]}"
-    class="${classes[$i]}"
-    title="${titles[$i]}"
-    icon_path="$(find_icon "$class")"
-
-    if [[ -n "$icon_path" ]]; then
-        line="img:${icon_path}:text:${pid} ${class} - ${title}"
-    else
-        line="text:${pid} ${class} - ${title}"
-    fi
-
-    if [[ -z "$window_list" ]]; then
-        window_list="$line"
-    else
-        window_list+=$'\n'"$line"
-    fi
-done
-
-[[ -n "$window_list" ]] || exit 0
-
-selected="$(
-    printf '%s\n' "$window_list" |
-        wofi --dmenu --allow-images -p "Kill App" -i
-)"
-
-[[ -n "$selected" ]] || exit 0
-
-case "$selected" in
-    img:*:text:*)
-        selected="${selected#*:text:}"
-        ;;
-    text:*)
-        selected="${selected#text:}"
-        ;;
-esac
-
-pid="${selected%% *}"
-
-case "$pid" in
-    ''|*[!0-9]*)
-        exit 0
-        ;;
-esac
-
-kill -9 -- "$pid"
-]=]
-
-    hl.exec_cmd("bash -c " .. shellQuote(script))
-end
-
+-- Kill App agora usa o modo nativo do Spotlight em Quickshell.
+-- O launcher consulta as janelas do Hyprland e preserva a semântica
+-- de encerrar o processo selecionado por PID do fluxo anterior.
 hl.bind(
     mainMod .. " + K",
-    killApp,
-    { description = "Kill app via Wofi" }
+    hl.dsp.global("quickshell:spotlight-kill"),
+    { description = "Kill app via Quickshell Spotlight" }
 )
+
+hl.bind("SUPER + CTRL + LEFT",
+    hl.dsp.workspace.move({ monitor = "l" })
+)
+
+hl.bind("SUPER + CTRL + RIGHT",
+    hl.dsp.workspace.move({ monitor = "r" })
+)
+
 -----------------------
 ---- FOCO / JANELAS ---
 -----------------------
@@ -1194,9 +1108,9 @@ hl.bind(
 ---- SCREENSHOTS ----
 --------------------
 
-hl.bind("Print", hl.dsp.exec_cmd(HOME .. "/.local/bin/hypr-screenshot output"))
-hl.bind("SHIFT + Print", hl.dsp.exec_cmd(HOME .. "/.local/bin/hypr-screenshot area"))
-hl.bind(mainMod .. " + Print", hl.dsp.exec_cmd("wl-paste | swappy -f -"))
+hl.bind("Print", hl.dsp.exec_cmd("env DEFAULT_TARGET_DIR=" .. HOME .. "/Imagens/Screenshots grimblast copysave output"))
+hl.bind("SHIFT + Print", hl.dsp.exec_cmd("env DEFAULT_TARGET_DIR=" .. HOME .. "/Imagens/Screenshots grimblast copysave area"))
+hl.bind(mainMod .. " + Print", hl.dsp.exec_cmd("~/.config/quickshell/scripts/screenshot-edit.sh last"))
 
 ------------------------
 ---- MEDIA / BRILHO ----
@@ -1207,34 +1121,26 @@ hl.bind(mainMod .. " + comma", hl.dsp.exec_cmd("playerctl prev"))
 hl.bind(mainMod .. " + semicolon", hl.dsp.exec_cmd("playerctl play-pause"))
 
 local volumeUp = [[
-wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ &&
-wpctl get-volume @DEFAULT_AUDIO_SINK@ |
-awk '{print int($2*100)}' > "$XDG_RUNTIME_DIR/wob.sock"
+wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
 ]]
 
 local volumeDown = [[
-wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- &&
-wpctl get-volume @DEFAULT_AUDIO_SINK@ |
-awk '{print int($2*100)}' > "$XDG_RUNTIME_DIR/wob.sock"
+wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
 ]]
 
 local volumeMute = [[
 wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle &&
 (
     wpctl get-volume @DEFAULT_AUDIO_SINK@ | grep -q "MUTED" &&
-    echo 0 ||
-    wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print int($2*100)}'
-) > "$XDG_RUNTIME_DIR/wob.sock"
+    echo 0
 ]]
 
 local brightnessUp = [[
-brightnessctl set 5%+ &&
-brightnessctl -m | cut -d, -f4 | tr -d '%' > "$XDG_RUNTIME_DIR/wob.sock"
+brightnessctl set 5%+
 ]]
 
 local brightnessDown = [[
-brightnessctl set 5%- &&
-brightnessctl -m | cut -d, -f4 | tr -d '%' > "$XDG_RUNTIME_DIR/wob.sock"
+brightnessctl set 5%-
 ]]
 
 hl.bind(
@@ -1273,7 +1179,7 @@ hl.bind(
     { locked = true, repeating = true }
 )
 
-hl.bind("XF86NotificationCenter", hl.dsp.exec_cmd("swaync-client -t -sw"))
+hl.bind("XF86NotificationCenter", hl.dsp.exec_cmd("quickshell ipc call notifications toggle"))
 
 -------------------
 ---- AUTOSTART ----
@@ -1283,21 +1189,21 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("gsettings set org.gnome.desktop.interface color-scheme prefer-dark")
 
     hl.exec_cmd("systemctl --user start gvfs-daemon")
-    hl.exec_cmd("uwsm app -- waybar")
     hl.exec_cmd("uwsm app -- awww-daemon")
-    hl.exec_cmd("waypaper --restore")
+    hl.exec_cmd("python3 -B " .. HOME .. "/.config/quickshell/scripts/wallpaper-action.py restore")
+    --hl.exec_cmd("uwsm app -- poweralertd")
     hl.exec_cmd("uwsm app -- easyeffects --gapplication-service")
-    hl.exec_cmd("uwsm app -- copyq --start-server && sleep 0.5 && copyq hide")
+    -- CopyQ aposentado: clipboard nativo do quickshell (v1.2.0). Sem servidor.
     hl.exec_cmd("systemctl --user start hyprpolkitagent")
 
-    hl.exec_cmd([[ghostty --title="ghostty-quake"]])
+    hl.exec_cmd([[kitty --title="kitty-quake"]])
 
     -- Separados: hl.exec_cmd já é assíncrono; não precisamos usar "&".
     hl.exec_cmd("uwsm app -- nm-applet --indicator")
 
-    hl.exec_cmd([[
-rm -f "$XDG_RUNTIME_DIR/wob.sock" &&
-mkfifo "$XDG_RUNTIME_DIR/wob.sock" &&
-tail -f "$XDG_RUNTIME_DIR/wob.sock" | wob
-]])
+    -- Mantém o comportamento do seu exec-once original.
+    -- Se o dynamic-cursors só aparecer após este reload, um "hyprctl reload"
+    -- manual aplicará o bloco protegido acima.
+    hl.exec_cmd("hyprpm reload")
+
 end)

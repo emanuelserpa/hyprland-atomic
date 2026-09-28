@@ -1,0 +1,10 @@
+module qs.services
+singleton IdleState 1.0 IdleState.qml
+singleton MediaState 1.0 MediaState.qml
+singleton NotificationState 1.0 NotificationState.qml
+singleton ThemeState 1.0 ThemeState.qml
+singleton NightLightState 1.0 NightLightState.qml
+singleton PowerProfileState 1.0 PowerProfileState.qml
+singleton UpdateState 1.0 UpdateState.qml
+singleton MotionState 1.0 MotionState.qml
+ClipboardService 1.0 ClipboardService.qml
