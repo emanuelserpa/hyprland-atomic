@@ -1,41 +1,56 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-repo='git@github.com:emanuelserpa/dotfiles.git'
-key="$HOME/.ssh/id_ed25519"
+repo_https='https://github.com/emanuelserpa/dotfiles.git'
+quickshell_repo='https://github.com/emanuelserpa/quickshell.git'
+quickshell_dir="$HOME/.config/quickshell"
 
-for dependency in git gpg ssh ssh-keygen yadm; do
+for dependency in gh git gpg yadm; do
   if ! command -v "$dependency" >/dev/null 2>&1; then
     printf 'Missing required command: %s\n' "$dependency" >&2
     exit 1
   fi
 done
 
-mkdir -p "$HOME/.ssh"
-chmod 0700 "$HOME/.ssh"
-if [[ ! -s "$key" ]]; then
-  ssh-keygen -t ed25519 -C "$(id -un)@$(hostname)" -f "$key"
+if ! gh auth status --hostname github.com >/dev/null 2>&1; then
+  gh auth login --hostname github.com --git-protocol https --web
 fi
-
-export GIT_SSH_COMMAND='ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=10'
-if ! git ls-remote "$repo" HEAD >/dev/null; then
-  printf '\nAdd this SSH public key to https://github.com/settings/keys, then run this command again:\n\n' >&2
-  cat "$key.pub" >&2
-  exit 1
-fi
+gh auth setup-git
 
 if origin="$(yadm remote get-url origin 2>/dev/null)"; then
-  if [[ "$origin" != "$repo" ]]; then
+  if [[ "$origin" != "$repo_https" && "$origin" != 'git@github.com:emanuelserpa/dotfiles.git' ]]; then
     printf 'YADM already uses a different origin: %s\n' "$origin" >&2
     exit 1
   fi
+  yadm remote set-url origin "$repo_https"
   yadm pull --rebase
 else
-  yadm clone --no-bootstrap "$repo"
+  yadm clone --no-bootstrap "$repo_https"
 fi
 
 yadm decrypt
 yadm perms
-yadm bootstrap
 
-printf '\nPrivate dotfiles are installed. Review any clone conflicts with `yadm status` and `yadm diff`.\n'
+if git -C "$quickshell_dir" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  git -C "$quickshell_dir" remote set-url origin "$quickshell_repo"
+  git -C "$quickshell_dir" pull --ff-only
+else
+  state_dir="${XDG_STATE_HOME:-$HOME/.local/state}/hyprland-atomic"
+  mkdir -p "$state_dir/backups"
+  tmpdir="$(mktemp -d)"
+  trap 'rm -rf "$tmpdir"' EXIT
+  git clone --depth 1 "$quickshell_repo" "$tmpdir/quickshell"
+
+  if [[ -e "$quickshell_dir" || -L "$quickshell_dir" ]]; then
+    backup_dir="$(mktemp -d "$state_dir/backups/quickshell.XXXXXX")"
+    mv -- "$quickshell_dir" "$backup_dir/quickshell"
+    printf 'Previous Quickshell config saved at %s\n' "$backup_dir/quickshell"
+  fi
+  mkdir -p "$(dirname -- "$quickshell_dir")"
+  mv -- "$tmpdir/quickshell" "$quickshell_dir"
+fi
+
+yadm bootstrap
+systemctl --user restart quickshell.service
+
+printf '\nPrivate dotfiles and the latest Quickshell are installed. Review any YADM conflicts with `yadm status` and `yadm diff`.\n'

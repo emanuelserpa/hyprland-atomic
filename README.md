@@ -64,10 +64,10 @@ graphical sessions. Retired
 Waybar, SwayNC, and Wob configurations are not included. See `dotfiles/README.md`
 for included files and setup.
 
-To fetch the separate private YADM repository after adding an SSH key to your
-GitHub account, run `hyprland-atomic-get-dotfiles`. The command decrypts the
-YADM archive interactively and applies its permissions. If the VM has no SSH
-key yet, it creates one and prints the public key to register at GitHub.
+To fetch the separate private YADM repository and the latest Quickshell, run
+`hyprland-atomic-get-dotfiles`. The command uses GitHub's browser login for the
+private repository, then asks for the YADM archive passphrase. YADM clone
+conflicts are preserved for review with `yadm status` and `yadm diff`.
 
 After provisioning, users can edit their home copies without rebuilding the
 image. Updating the defaults distributed to new or unprovisioned users requires

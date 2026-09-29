@@ -37,6 +37,7 @@ modules:
       install-weak-deps: false
       packages:
         - curl
+        - gh
         - git
         - gnupg2
         - kitty
