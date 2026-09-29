@@ -1,0 +1,13 @@
+[Unit]
+Description=Install missing hyprland-atomic user defaults
+PartOf=graphical-session.target
+After=graphical-session.target
+Before=quickshell.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/libexec/hyprland-atomic-user-setup
+RemainAfterExit=yes
+
+[Install]
+WantedBy=graphical-session.target

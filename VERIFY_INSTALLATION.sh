@@ -17,11 +17,10 @@ done
 
 required_files=(
   "$HOME/.config/hypr/hyprland.lua"
-  "$HOME/.config/quickshell/shell.qml"
+  "/etc/xdg/quickshell/shell.qml"
   "$HOME/.config/kitty/kitty.conf"
   "$HOME/.config/wofi/config"
   "$HOME/.config/uwsm/env"
-  "$HOME/.config/systemd/user/quickshell.service"
   "$HOME/.config/waypaper/config.ini"
   "$HOME/.config/zsh/.zshrc"
   "$HOME/.config/xdg-desktop-portal/hyprland-portals.conf"

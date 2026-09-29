@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+defaults_dir="${HYPRLAND_ATOMIC_DEFAULTS_DIR:-/usr/share/hyprland-atomic/defaults}"
+version_file="${HYPRLAND_ATOMIC_DEFAULTS_VERSION_FILE:-/usr/share/hyprland-atomic/defaults-version}"
+state_home="${XDG_STATE_HOME:-$HOME/.local/state}"
+
+if [[ ! -d "$defaults_dir" ]]; then
+  printf 'hyprland-atomic: defaults directory not found: %s\n' "$defaults_dir" >&2
+  exit 1
+fi
+if [[ ! -r "$version_file" ]]; then
+  printf 'hyprland-atomic: defaults version file not found: %s\n' "$version_file" >&2
+  exit 1
+fi
+
+version="$(< "$version_file")"
+marker="$state_home/hyprland-atomic/user-setup-$version"
+if [[ -e "$marker" ]]; then
+  exit 0
+fi
+
+mkdir -p "$HOME" "$(dirname -- "$marker")"
+
+# Seed missing defaults only. Existing user and yadm-managed files win.
+cp -a --no-clobber "$defaults_dir/." "$HOME/"
+
+systemctl --user daemon-reload
+touch "$marker"
+
+printf 'hyprland-atomic: user defaults %s installed for %s\n' "$version" "${USER:-$(id -un)}"

@@ -13,6 +13,10 @@ required_files=(
   files/system/etc/yum.repos.d/insync.repo
   files/system/usr/lib/systemd/system/hyprland-atomic-charge-limit.service
   files/system/usr/libexec/hyprland-atomic-charge-limit
+  files/system/usr/libexec/hyprland-atomic-user-setup
+  files/system/usr/share/hyprland-atomic/defaults-version
+  files/systemd/user/quickshell.service
+  files/systemd/user/hyprland-atomic-user-setup.service
   dotfiles/.config/hypr/hyprland.lua
   dotfiles/.config/ghostty/config
   dotfiles/.config/kitty/kitty.conf
@@ -41,6 +45,7 @@ shell_scripts=(
   APPLY_TO_EXISTING_REPO.sh
   files/scripts/import-insync-key.sh
   files/system/usr/libexec/hyprland-atomic-charge-limit
+  files/system/usr/libexec/hyprland-atomic-user-setup
   dotfiles/.config/quickshell/scripts/validate.sh
   dotfiles/.local/bin/hypr-screenshot
   dotfiles/.local/bin/elecwhat
@@ -59,6 +64,9 @@ fi
 python3 - <<'PY'
 import ast
 import configparser
+import os
+import subprocess
+import tempfile
 from pathlib import Path
 
 for python_file in Path("dotfiles/.config/quickshell/scripts").rglob("*.py"):
@@ -71,6 +79,48 @@ portal_config.read(
 )
 if portal_config.get("preferred", "default") != "hyprland;gtk":
     raise ValueError("Unexpected Hyprland portal fallback order")
+
+# First-login setup must seed missing files and preserve existing user files.
+with tempfile.TemporaryDirectory(prefix="hyprland-atomic-setup-test-") as temp:
+    root = Path(temp)
+    home = root / "home"
+    defaults = root / "defaults"
+    state = root / "state"
+    fake_bin = root / "bin"
+    (defaults / ".config/hypr").mkdir(parents=True)
+    (home / ".config/hypr").mkdir(parents=True)
+    fake_bin.mkdir()
+    (defaults / ".config/hypr/hyprland.lua").write_text("image default\n")
+    (defaults / ".config/kitty/kitty.conf").parent.mkdir(parents=True)
+    (defaults / ".config/kitty/kitty.conf").write_text("kitty default\n")
+    (defaults / ".zshenv").write_text("zsh default\n")
+    (home / ".config/hypr/hyprland.lua").write_text("user config\n")
+    (fake_bin / "systemctl").write_text("#!/bin/sh\nexit 0\n")
+    (fake_bin / "systemctl").chmod(0o755)
+    version = root / "defaults-version"
+    version.write_text("test\n")
+    env = os.environ | {
+        "HOME": str(home),
+        "XDG_STATE_HOME": str(state),
+        "HYPRLAND_ATOMIC_DEFAULTS_DIR": str(defaults),
+        "HYPRLAND_ATOMIC_DEFAULTS_VERSION_FILE": str(version),
+        "PATH": f"{fake_bin}:{os.environ['PATH']}",
+    }
+    subprocess.run(
+        ["bash", "files/system/usr/libexec/hyprland-atomic-user-setup"],
+        check=True,
+        env=env,
+        capture_output=True,
+        text=True,
+    )
+    if (home / ".config/hypr/hyprland.lua").read_text() != "user config\n":
+        raise ValueError("First-login setup overwrote an existing user config")
+    if (home / ".config/kitty/kitty.conf").read_text() != "kitty default\n":
+        raise ValueError("First-login setup did not seed a missing config")
+    if (home / ".zshenv").read_text() != "zsh default\n":
+        raise ValueError("First-login setup did not seed a hidden file")
+    if not (state / "hyprland-atomic/user-setup-test").is_file():
+        raise ValueError("First-login setup did not create its version marker")
 PY
 
 if command -v ruby >/dev/null 2>&1; then

@@ -13,6 +13,18 @@ modules:
       - source: system
         destination: /
 
+  # Keep a working default shell in the image. A user's ~/.config/quickshell
+  # still takes precedence, so the same files remain overrideable as dotfiles.
+  - type: copy
+    src: dotfiles/.config/quickshell
+    dest: /etc/xdg/quickshell/
+
+  # Seed user-scoped configs on first graphical login without overwriting
+  # existing files (including yadm-managed settings).
+  - type: copy
+    src: dotfiles/
+    dest: /usr/share/hyprland-atomic/defaults/
+
   - type: script
     scripts:
       - import-insync-key.sh
@@ -72,5 +84,9 @@ modules:
       enabled:
         - thinkfan.service
         - hyprland-atomic-charge-limit.service
+    user:
+      enabled:
+        - hyprland-atomic-user-setup.service
+        - quickshell.service
 
   - type: signing
