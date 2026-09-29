@@ -52,7 +52,6 @@ Personal files such as:
 ```text
 ~/.config/hypr/
 ~/.config/kitty/
-~/.config/ghostty/
 ~/.config/zsh/
 ```
 
@@ -93,7 +92,7 @@ Before opening a pull request, run the repository checks locally:
 
 The command always checks the repository structure and the Bash, Python,
 JSON/JSONC and YAML syntax. It also validates Hyprland and Quickshell when
-installed; Ghostty validation is optional because the image does not include it.
+installed.
 
 ## Image
 

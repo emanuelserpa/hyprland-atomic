@@ -20,7 +20,6 @@ required_files=(
   files/systemd/user/quickshell.service
   files/systemd/user/hyprland-atomic-user-setup.service
   dotfiles/.config/hypr/hyprland.lua
-  dotfiles/.config/ghostty/config
   dotfiles/.config/kitty/kitty.conf
   dotfiles/.config/quickshell/shell.qml
   dotfiles/.config/quickshell/Theme.qml
@@ -44,7 +43,6 @@ done
 shell_scripts=(
   INSTALL.sh
   VERIFY_INSTALLATION.sh
-  APPLY_TO_EXISTING_REPO.sh
   files/scripts/import-insync-key.sh
   files/scripts/install-yadm.sh
   files/system/usr/libexec/hyprland-atomic-charge-limit
@@ -138,13 +136,6 @@ if command -v Hyprland >/dev/null 2>&1; then
   Hyprland --verify-config -c "$project_dir/dotfiles/.config/hypr/hyprland.lua"
 else
   printf 'SKIP Hyprland validation: Hyprland is not installed.\n' >&2
-fi
-
-if command -v ghostty >/dev/null 2>&1; then
-  ghostty +validate-config \
-    --config-file="$project_dir/dotfiles/.config/ghostty/config"
-else
-  printf 'SKIP Ghostty validation: Ghostty is not installed.\n' >&2
 fi
 
 if command -v quickshell >/dev/null 2>&1; then

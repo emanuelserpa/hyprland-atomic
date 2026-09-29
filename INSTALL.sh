@@ -14,7 +14,7 @@ fi
 mkdir -p "$HOME/.config" "$HOME/.local/bin" "$HOME/Pictures/Wallpapers"
 mkdir -p "$backup_dir"
 
-for relative_path in .config/hypr .config/quickshell .config/kitty .config/ghostty \
+for relative_path in .config/hypr .config/quickshell .config/kitty \
                      .config/wofi .config/uwsm .config/waypaper \
                      .config/systemd/user/quickshell.service .config/zsh .zshenv; do
   destination="$HOME/$relative_path"

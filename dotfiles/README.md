@@ -12,7 +12,7 @@ Included configurations:
   notifications, OSD, launcher, services,
   helper scripts, and tests
 - `systemd/user/quickshell.service`: starts QuickShell with the graphical session
-- `kitty/kitty.conf` and `ghostty/config`: both terminal configurations
+- `kitty/kitty.conf`: terminal configuration
 - `wofi`: selector used by Rofimoji
 - `uwsm`: portable graphical-session environment
 - `waypaper`: wallpaper selector configured with the included default background
