@@ -1,13 +1,15 @@
 # Desktop dotfiles
 
-These are the versioned user configurations for the desktop. They are kept in
-this repository for backup and review, but are not copied into the operating
-system image or `/etc/skel`.
+These are the versioned user configurations for the desktop. Quickshell is
+copied into `/etc/xdg/quickshell` as a system default; the first graphical
+login seeds missing files from this snapshot into the user's home. Existing
+files are preserved, so yadm-managed settings keep precedence.
 
 Included configurations:
 
 - `hypr`: current Hyprland Lua configuration, Hypridle, Hyprlock, and shader
-- `quickshell`: current shell, bar, notifications, OSD, launcher, services,
+- `quickshell`: shell default in the image plus user-overridable bar,
+  notifications, OSD, launcher, services,
   helper scripts, and tests
 - `systemd/user/quickshell.service`: starts QuickShell with the graphical session
 - `kitty/kitty.conf` and `ghostty/config`: both terminal configurations
@@ -32,8 +34,13 @@ The ElecWhat binary is intentionally not versioned. Put the executable
 AppImage at `~/AppImages/elecwhat.appimage`; the installer provides its
 launcher and desktop entry.
 
-The installer also enables `quickshell.service` in the user systemd session.
-Log out and back in after installing so the graphical-session target starts it.
+The image enables the setup and `quickshell.service` units globally for user
+graphical sessions. The setup service runs once per packaged defaults version.
+When changing the bundled defaults, increment
+`files/system/usr/share/hyprland-atomic/defaults-version`; the next session
+will seed newly added files without replacing existing ones.
+`./INSTALL.sh` remains available for manual replacement and creates a backup
+before copying files.
 
 The retired Waybar, SwayNC, and Wob configurations are not included.
 Quickshell provides the active bar and notifications. The repository excludes

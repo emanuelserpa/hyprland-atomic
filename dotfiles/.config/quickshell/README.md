@@ -43,9 +43,11 @@ Per-feature helpers: `nmcli`, `bluetoothctl`, `checkupdates`
 ## Install
 
 This project includes a snapshot of the active Quickshell configuration under
-`dotfiles/.config/quickshell`. Install it together with the companion desktop
-configuration using the repository's `./INSTALL.sh`. The installer backs up
-the existing shell directory and enables `quickshell.service` for the user.
+`dotfiles/.config/quickshell`. The image installs it as the system default at
+`/etc/xdg/quickshell` and starts it with the graphical session. A user config
+at `~/.config/quickshell` overrides that default. Run the repository's
+`./INSTALL.sh` to copy the snapshot into your home together with the companion
+desktop settings; the installer backs up existing files first.
 
 For standalone use outside this project, the upstream setup is:
 
