@@ -8,6 +8,8 @@ required_files=(
   recipes/recipe.yml
   .github/workflows/build.yml
   files/scripts/import-insync-key.sh
+  files/scripts/install-yadm.sh
+  files/system/usr/bin/hyprland-atomic-get-dotfiles
   files/system/etc/thinkfan.conf
   files/system/etc/modprobe.d/99-thinkfan.conf
   files/system/etc/yum.repos.d/insync.repo
@@ -44,8 +46,10 @@ shell_scripts=(
   VERIFY_INSTALLATION.sh
   APPLY_TO_EXISTING_REPO.sh
   files/scripts/import-insync-key.sh
+  files/scripts/install-yadm.sh
   files/system/usr/libexec/hyprland-atomic-charge-limit
   files/system/usr/libexec/hyprland-atomic-user-setup
+  files/system/usr/bin/hyprland-atomic-get-dotfiles
   dotfiles/.config/quickshell/scripts/validate.sh
   dotfiles/.local/bin/hypr-screenshot
   dotfiles/.local/bin/elecwhat

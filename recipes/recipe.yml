@@ -36,7 +36,11 @@ modules:
     install:
       install-weak-deps: false
       packages:
+        - curl
+        - git
+        - gnupg2
         - kitty
+        - openssh-clients
         - quickshell
         - python3-pillow
         - awww
@@ -63,6 +67,10 @@ modules:
         - scx_layered
         - scx_rusty
         - insync
+
+  - type: script
+    scripts:
+      - install-yadm.sh
 
   - type: default-flatpaks
     configurations:

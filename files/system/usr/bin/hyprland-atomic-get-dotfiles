@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+repo='git@github.com:emanuelserpa/dotfiles.git'
+key="$HOME/.ssh/id_ed25519"
+
+for dependency in git gpg ssh ssh-keygen yadm; do
+  if ! command -v "$dependency" >/dev/null 2>&1; then
+    printf 'Missing required command: %s\n' "$dependency" >&2
+    exit 1
+  fi
+done
+
+mkdir -p "$HOME/.ssh"
+chmod 0700 "$HOME/.ssh"
+if [[ ! -s "$key" ]]; then
+  ssh-keygen -t ed25519 -C "$(id -un)@$(hostname)" -f "$key"
+fi
+
+export GIT_SSH_COMMAND='ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=10'
+if ! git ls-remote "$repo" HEAD >/dev/null; then
+  printf '\nAdd this SSH public key to https://github.com/settings/keys, then run this command again:\n\n' >&2
+  cat "$key.pub" >&2
+  exit 1
+fi
+
+if origin="$(yadm remote get-url origin 2>/dev/null)"; then
+  if [[ "$origin" != "$repo" ]]; then
+    printf 'YADM already uses a different origin: %s\n' "$origin" >&2
+    exit 1
+  fi
+  yadm pull --rebase
+else
+  yadm clone --no-bootstrap "$repo"
+fi
+
+yadm decrypt
+yadm perms
+yadm bootstrap
+
+printf '\nPrivate dotfiles are installed. Review any clone conflicts with `yadm status` and `yadm diff`.\n'

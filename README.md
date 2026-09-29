@@ -39,6 +39,7 @@ this workstation/use case.
 - persistent ThinkPad battery protection (start at 75%, stop at 80%)
 - Fedora sched_ext schedulers: `scx_layered`, `scx_rusty`
 - Insync
+- YADM and GnuPG for private dotfiles
 
 The image deliberately does not install TLP because Wayblue already ships
 `tuned-ppd`. Its standard `balanced`/`balanced-battery` mapping is retained;
@@ -62,6 +63,11 @@ is also available at `/etc/xdg/quickshell`, and its service starts globally for
 graphical sessions. Retired
 Waybar, SwayNC, and Wob configurations are not included. See `dotfiles/README.md`
 for included files and setup.
+
+To fetch the separate private YADM repository after adding an SSH key to your
+GitHub account, run `hyprland-atomic-get-dotfiles`. The command decrypts the
+YADM archive interactively and applies its permissions. If the VM has no SSH
+key yet, it creates one and prints the public key to register at GitHub.
 
 After provisioning, users can edit their home copies without rebuilding the
 image. Updating the defaults distributed to new or unprovisioned users requires
